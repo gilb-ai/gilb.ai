@@ -124,6 +124,14 @@ h1 {
 section { padding: 64px 0; border-top: 1px solid var(--line); }
 #thanks { display: none; }
 #thanks:target { display: block; }
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 24px;
+  font-weight: 500;
+}
 h2 {
   font-size: clamp(26px, 3.4vw, 36px);
   line-height: 1.1;
@@ -223,6 +231,7 @@ footer {
 <main>
   <section class="hero" style="border-top:0">
     <div class="shell">
+      <div class="eyebrow">Built for the people leading AI transformation</div>
       <h1>AI transformation needs full context. We capture the work on your computers.</h1>
       <p class="hero-sub">Reaching real AI transformation means understanding how work actually gets done — and a huge part of that lives on screens. Gilbreth captures the useful on-computer work, keeps only what matters, and turns repeated actions into skills your agents can run.</p>
       <a class="button" href="#demo">Book a demo →</a>
