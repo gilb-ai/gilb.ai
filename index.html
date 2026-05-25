@@ -122,6 +122,8 @@ h1 {
 
 /* ---------- sections ---------- */
 section { padding: 64px 0; border-top: 1px solid var(--line); }
+#thanks { display: none; }
+#thanks:target { display: block; }
 h2 {
   font-size: clamp(26px, 3.4vw, 36px);
   line-height: 1.1;
@@ -276,7 +278,11 @@ footer {
     <div class="shell">
       <h2>Request a demo.</h2>
       <p>If you run AI transformation work and want to see how this compresses discovery, send a structured request. Use case first — no generic vendor tour. Replies from <a href="mailto:ori@agentmail.to" style="color:var(--accent)">ori@agentmail.to</a> within one business day.</p>
-      <form class="demo-form" id="demo-form">
+      <form class="demo-form" id="demo-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="e0ee21a0-f0e6-4338-bbd8-c36deb3724a1">
+        <input type="hidden" name="subject" value="Gilbreth demo request">
+        <input type="hidden" name="redirect" value="https://gilb.ai/#thanks">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="row-2">
           <label>Full name<input type="text" name="name" required placeholder="Jane Smith"></label>
           <label>Work email<input type="email" name="email" required placeholder="jane@company.com"></label>
@@ -310,6 +316,14 @@ footer {
           <button class="button" type="submit">Send request →</button>
         </div>
       </form>
+    </div>
+  </section>
+
+  <section id="thanks">
+    <div class="shell">
+      <h2>Got it.</h2>
+      <p>Thank you. Ori comes back via <a href="mailto:ori@agentmail.to" style="color:var(--accent)">ori@agentmail.to</a> within one business day. If anything's urgent, reply directly on that thread.</p>
+      <p><a href="/" style="color:var(--muted)">← Back to gilb.ai</a></p>
     </div>
   </section>
 </main>
