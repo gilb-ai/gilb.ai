@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gilbreth — Process Intelligence for on-computer work</title>
+<meta name="description" content="AI ROI starts with how work actually happens. Gilbreth photographs real on-computer work and turns the repeatable parts into skills your agents can run.">
+<meta name="theme-color" content="#eaeff2">
+<meta property="og:title" content="Gilbreth — the photograph of on-computer work">
+<meta property="og:description" content="Process Intelligence for the manual last mile. AI ROI starts with how work actually happens on your computers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gilb.ai/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230e1a2b'/><path d='M22 68 Q50 18 78 68' fill='none' stroke='%23bd6a16' stroke-width='9' stroke-linecap='round'/><circle cx='78' cy='68' r='8' fill='%231f93b4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#eaeff2;
+  --panel:#dde6ec;
+  --ink:#0e1a2b;
+  --ink-2:#36465a;
+  --muted:#6c7a8c;
+  --rule:rgba(14,26,43,.13);
+  --rule-2:rgba(14,26,43,.22);
+  --amber:#bd6a16;
+  --trace:#1f93b4;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Inter",system-ui,-apple-system,sans-serif;
+  font-size:16.5px;
+  line-height:1.62;
+  color:var(--ink);
+  background:var(--ground);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:inherit}
+::selection{background:var(--ink);color:var(--ground)}
+.shell{width:min(760px,calc(100% - 48px));margin:0 auto}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+/* ---------- topbar ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(234,239,242,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.brand-mark{width:26px;height:26px;flex:none}
+.brand-name{font-weight:700;font-size:18px;letter-spacing:-.015em}
+.nav{display:flex;align-items:center;gap:24px}
+.nav a{font-size:14px;color:var(--muted);text-decoration:none;transition:color .16s ease}
+.nav a:hover{color:var(--ink)}
+.status{display:inline-flex;align-items:center;gap:7px;font:500 11.5px/1 "JetBrains Mono",monospace;letter-spacing:.04em;color:var(--ink-2)}
+.status .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(189,106,22,.5);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(189,106,22,.45)}70%{box-shadow:0 0 0 7px rgba(189,106,22,0)}100%{box-shadow:0 0 0 0 rgba(189,106,22,0)}}
+.cta{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border:1px solid var(--ink);background:var(--ink);color:var(--ground);font-size:14px;font-weight:500;text-decoration:none;border-radius:3px;transition:background .16s ease,border-color .16s ease}
+.cta:hover{background:var(--amber);border-color:var(--amber)}
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 30px}
+.eyebrow{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 26px}
+.eyebrow b{color:var(--amber);font-weight:600}
+h1{font-size:clamp(38px,5.6vw,58px);line-height:1.04;letter-spacing:-.022em;font-weight:800;margin:0 0 24px;max-width:17ch}
+h1 em{font-style:normal;color:var(--amber)}
+.hero-sub{font-size:18.5px;line-height:1.55;color:var(--ink-2);max-width:54ch;margin:0 0 34px}
+.hero-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-cta .quiet{font-size:14px;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--rule-2);padding-bottom:1px}
+.hero-cta .quiet:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ---------- chronocyclegraph trace (signature) ---------- */
+.trace-wrap{margin:46px 0 0;padding:26px 0 6px;border-top:1px solid var(--rule)}
+.trace{width:100%;height:auto;display:block;overflow:visible}
+.trace .t-amber{fill:none;stroke:var(--amber);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px rgba(189,106,22,.45))}
+.trace .t-cyan{fill:none;stroke:var(--trace);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.trace .t-dot{fill:var(--ground);stroke:var(--ink);stroke-width:1.6}
+.trace .t-amber,.trace .t-cyan{stroke-dasharray:1100;stroke-dashoffset:1100;animation:draw 2.6s cubic-bezier(.6,.05,.2,1) forwards}
+.trace .t-cyan{animation-delay:.35s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.trace-caption{font:400 12.5px/1.55 "JetBrains Mono",monospace;color:var(--muted);max-width:60ch;margin:16px 0 0}
+.trace-caption b{color:var(--ink-2);font-weight:600}
+
+/* ---------- readout panel ---------- */
+.readout{margin:14px 0 0;background:var(--panel);border:1px solid var(--rule-2);border-radius:6px;padding:22px 26px;font-family:"JetBrains Mono",monospace}
+.readout-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.readout-title{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.readout-sub{font-size:11.5px;color:var(--muted)}
+.r-row{display:flex;align-items:baseline;gap:9px;padding:6px 0;font-size:13px}
+.r-key{color:var(--ink-2)}
+.r-lead{flex:1;border-bottom:1px dotted var(--rule-2);transform:translateY(-3px);min-width:18px}
+.r-val{color:var(--ink);font-weight:600;white-space:nowrap}
+.r-val--live{color:var(--amber)}
+
+/* ---------- signal feed ---------- */
+.feed{padding:18px 0 8px}
+.feed-head{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:30px 0 4px}
+.signal{display:grid;grid-template-columns:74px 1fr;gap:20px;padding:28px 0;border-top:1px solid var(--rule)}
+.signal-date{font:500 12.5px/1.5 "JetBrains Mono",monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding-top:5px}
+.signal-date span{display:block;color:var(--ink-2);font-weight:600}
+.signal-head{font-size:clamp(21px,2.6vw,25px);line-height:1.2;letter-spacing:-.012em;font-weight:700;margin:0 0 10px;color:var(--ink)}
+.signal-body p{margin:0 0 4px;color:var(--ink-2);font-size:16px;line-height:1.6;max-width:62ch}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 0;padding:0}
+.tag{font:500 10.5px/1 "JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.1em;padding:5px 9px;border:1px solid var(--rule-2);border-radius:3px;color:var(--muted)}
+.tag--thesis{color:var(--amber);border-color:rgba(189,106,22,.4)}
+.tag--observed{color:var(--trace);border-color:rgba(31,147,180,.4)}
+.tag--shipped{color:var(--ink);border-color:var(--ink)}
+.tag--decision{color:var(--ink-2)}
+
+/* ---------- process sequence (real order, so numbered) ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;padding:30px 0 6px;border-top:1px solid var(--rule)}
+.step-num{font:600 12px/1 "JetBrains Mono",monospace;color:var(--amber);margin-bottom:9px;letter-spacing:.06em}
+.step-head{font-size:16px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em}
+.step-body{font-size:14.5px;color:var(--ink-2);line-height:1.55;margin:0}
+
+/* ---------- demo ---------- */
+.demo{padding:30px 0 8px;border-top:1px solid var(--rule)}
+.demo h2{font-size:clamp(26px,3.4vw,34px);line-height:1.1;letter-spacing:-.016em;font-weight:800;margin:0 0 14px;max-width:22ch}
+.demo>p{color:var(--ink-2);max-width:60ch;margin:0 0 26px}
+.form{display:grid;gap:18px}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:grid;gap:7px;font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+input,textarea,select{width:100%;border:0;border-bottom:1px solid var(--rule-2);border-radius:0;padding:9px 2px;background:transparent;color:var(--ink);font:400 16px/1.5 "Inter",system-ui,sans-serif;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+input:focus,textarea:focus,select:focus{outline:none;border-bottom-color:var(--amber)}
+textarea{min-height:104px}
+select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 14px) 16px,calc(100% - 8px) 16px;background-size:6px 6px;background-repeat:no-repeat;padding-right:24px}
+.form-actions{margin-top:6px}
+#thanks{display:none}
+#thanks:target{display:block}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule);margin-top:40px;padding:30px 0 60px;font:400 13px/1.6 "JetBrains Mono",monospace;color:var(--muted)}
+.footer-line{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:14px}
+.footer-line a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule-2)}
+.footer-line a:hover{border-color:var(--ink)}
+
+/* ---------- responsive + a11y ---------- */
+@media (max-width:620px){
+  .nav .nav-link{display:none}
+  .hero{padding:52px 0 24px}
+  .signal{grid-template-columns:1fr;gap:7px}
+  .signal-date{padding-top:0}
+  .signal-date span{display:inline}
+  .row-2{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr;gap:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important}
+  .trace .t-amber,.trace .t-cyan{stroke-dashoffset:0}
+  .status .dot{animation:none}
+  html{scroll-behavior:auto}
+}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <a class="brand" href="/">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <rect width="100" height="100" rx="22" fill="#0e1a2b"/>
+        <path d="M22 68 Q50 18 78 68" fill="none" stroke="#bd6a16" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="78" cy="68" r="8" fill="#1f93b4"/>
+      </svg>
+      <span class="brand-name">Gilbreth</span>
+    </a>
+    <nav class="nav">
+      <span class="status"><span class="dot"></span> live · v0.4</span>
+      <a class="nav-link" href="#feed">Signals</a>
+      <a class="nav-link" href="#demo">Demo</a>
+      <a class="cta" href="#demo">Request a readout →</a>
+    </nav>
+  </div>
+</header>
+
+<main class="shell">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="eyebrow">Process Intelligence · <b>on-computer work</b></div>
+    <h1>AI ROI starts with <em>how work actually happens</em>.</h1>
+    <p class="hero-sub">Process mining reconstructs flows from system events — it sees the ticket opened and closed. It never sees the four tabs, the pasted number, the manual fix in between. That last mile is where the real automation lives, and almost nothing is watching it. Gilbreth photographs the real on-computer work and turns the repeatable parts into skills your agents can run.</p>
+    <div class="hero-cta">
+      <a class="cta" href="#demo">Request a readout →</a>
+      <a class="quiet" href="#feed">Read the signal log ↓</a>
+    </div>
+
+    <div class="trace-wrap">
+      <svg class="trace" viewBox="0 0 640 250" role="img" aria-label="A chronocyclegraph: a captured motion path drawn as a light trail">
+        <path class="t-cyan" d="M30 200 C 70 80, 170 70, 215 150 C 250 212, 320 212, 360 132"/>
+        <path class="t-amber" d="M30 200 C 70 80, 170 70, 215 150 C 250 212, 320 212, 360 132 C 400 58, 510 52, 575 150 C 600 190, 612 196, 612 196"/>
+        <circle class="t-dot" cx="215" cy="150" r="4"/>
+        <circle class="t-dot" cx="360" cy="132" r="4"/>
+        <circle class="t-dot" cx="510" cy="66" r="4"/>
+      </svg>
+      <p class="trace-caption"><b>Chronocyclegraph.</b> A century ago Frank &amp; Lillian Gilbreth photographed work by tracing a worker's hand as a trail of light. Gilbreth photographs on-computer work the same way — a true record of motion, not a guess.</p>
+    </div>
+
+    <!-- readout -->
+    <div class="readout" aria-label="process readout">
+      <div class="readout-head">
+        <span class="readout-title">Process readout</span>
+        <span class="readout-sub">gilb.ai · ground truth of digital work</span>
+      </div>
+      <div class="r-row"><span class="r-key">on-computer signal</span><span class="r-lead"></span><span class="r-val r-val--live">live capture</span></div>
+      <div class="r-row"><span class="r-key">therblig — repeating unit</span><span class="r-lead"></span><span class="r-val">atomic</span></div>
+      <div class="r-row"><span class="r-key">skill — agent-runnable</span><span class="r-lead"></span><span class="r-val">composed</span></div>
+      <div class="r-row"><span class="r-key">coverage vs. system logs</span><span class="r-lead"></span><span class="r-val">+ the manual last mile</span></div>
+      <div class="r-row"><span class="r-key">privacy posture</span><span class="r-lead"></span><span class="r-val">keep only what matters</span></div>
+    </div>
+  </section>
+
+  <!-- ============ SIGNAL FEED ============ -->
+  <div class="feed-head" id="feed">Signal log — what we keep learning about work</div>
+  <section class="feed" style="border:0;padding:0">
+
+    <article class="signal">
+      <div class="signal-date">Jun 18<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">The road to AI ROI runs through the work, not the model.</h3>
+        <p>Transformation stalls less on the model than on not knowing what people actually do all day. Before you can industrialize AI, you need the ground truth — and for knowledge work, most of it lives on screens that no one is photographing.</p>
+        <ul class="tags"><li class="tag tag--thesis">thesis</li><li class="tag">celonis-grade</li></ul>
+      </div>
+    </article>
+
+    <article class="signal">
+      <div class="signal-date">Jun 11<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">Your tools can see the system. They miss the last mile.</h3>
+        <p>Process mining rebuilds flows from system events. It records the ticket opened and the ticket closed. It never records the four tabs, the pasted number, the reconciliation done by hand in between. That invisible stretch is where the real automation is hiding.</p>
+        <ul class="tags"><li class="tag tag--observed">observed</li><li class="tag">blind-spot</li></ul>
+      </div>
+    </article>
+
+    <article class="signal">
+      <div class="signal-date">Jun 04<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">From raw capture to the Therblig.</h3>
+        <p>We distill on-computer activity into Therbligs — the repeating units of digital work, named for the Gilbreths' motion study. A Therblig is the smallest useful thing a person does on screen more than once. Find the Therbligs and you've found what's worth automating.</p>
+        <ul class="tags"><li class="tag tag--shipped">shipped</li><li class="tag">core</li></ul>
+      </div>
+    </article>
+
+    <article class="signal">
+      <div class="signal-date">May 28<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">Therbligs compose into Skills agents can actually run.</h3>
+        <p>Stack the right Therbligs and you get a Skill: a runnable unit an agent executes end to end, with a human confirming what's worth handing off. The output isn't a slide describing the opportunity — it's something your agents can do.</p>
+        <ul class="tags"><li class="tag tag--shipped">shipped</li><li class="tag">agent-runnable</li></ul>
+      </div>
+    </article>
+
+    <article class="signal">
+      <div class="signal-date">May 20<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">Privacy is a hard constraint, not a setting.</h3>
+        <p>We keep only what's needed to find repeatable work. The manager sees the notebook of what can be automated — never a camera feed, never keystrokes pinned to a name. If the goal is productivity policing, this is the wrong product, and we'll say so.</p>
+        <ul class="tags"><li class="tag tag--thesis">constraint</li><li class="tag">not-surveillance</li></ul>
+      </div>
+    </article>
+
+    <article class="signal">
+      <div class="signal-date">May 13<span>2026</span></div>
+      <div class="signal-body">
+        <h3 class="signal-head">Built for the people carrying the company from AI theater to real redesign.</h3>
+        <p>The buyer is the consultant or internal team responsible for moving the org from demos to outcomes. Gilbreth compresses discovery — weeks of interviews and reconstruction — into observed reality you can act on this quarter.</p>
+        <ul class="tags"><li class="tag tag--decision">decision</li><li class="tag">who-it's-for</li></ul>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- ============ PROCESS SEQUENCE ============ -->
+  <div class="feed-head">The pipeline — a real sequence</div>
+  <section class="steps" style="border:0;padding:30px 0 0">
+    <div>
+      <div class="step-num">01 — Observe</div>
+      <h4 class="step-head">Photograph the work.</h4>
+      <p class="step-body">Screen and mouse-level signals capture the repeated last mile your logs never see. Keep only what matters.</p>
+    </div>
+    <div>
+      <div class="step-num">02 — Distill</div>
+      <h4 class="step-head">Find the Therbligs.</h4>
+      <p class="step-body">Raw activity becomes repeating units of digital work — the atoms of what's actually done more than once.</p>
+    </div>
+    <div>
+      <div class="step-num">03 — Hand off</div>
+      <h4 class="step-head">Compose Skills.</h4>
+      <p class="step-body">Therbligs stack into agent-runnable Skills, with a human confirming what's worth automating. Output you can run.</p>
+    </div>
+  </section>
+
+  <!-- ============ DEMO ============ -->
+  <section class="demo" id="demo">
+    <h2>Request a readout.</h2>
+    <p>You run AI transformation work and want to see how this compresses discovery. Send a structured request — use case first, no generic vendor tour. We come back within one business day.</p>
+    <form class="form" id="demo-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="e0ee21a0-f0e6-4338-bbd8-c36deb3724a1">
+      <input type="hidden" name="subject" value="Gilbreth readout request">
+      <input type="hidden" name="from_name" value="Gilbreth — gilb.ai">
+      <input type="hidden" name="redirect" value="https://gilb.ai/index2.html#thanks">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="row-2">
+        <label>Full name<input type="text" name="name" required placeholder="Jane Smith"></label>
+        <label>Work email<input type="email" name="email" required placeholder="jane@company.com"></label>
+      </div>
+      <div class="row-2">
+        <label>Company<input type="text" name="company" required placeholder="Firm or company name"></label>
+        <label>Role<input type="text" name="role" required placeholder="Partner, transformation lead, …"></label>
+      </div>
+      <div class="row-2">
+        <label>Team type
+          <select name="team_type" required>
+            <option value="">Select one</option>
+            <option>External AI transformation consultancy</option>
+            <option>Internal transformation / ops team</option>
+            <option>Portfolio operations / PE value creation</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>Priority timeline
+          <select name="timeline" required>
+            <option value="">Select one</option>
+            <option>Immediate pilot in 30 days</option>
+            <option>Exploration this quarter</option>
+            <option>Researching for later</option>
+          </select>
+        </label>
+      </div>
+      <label>What transformation problem are you trying to solve?<textarea name="problem" required placeholder="Example: we need a faster way to find automation opportunities across support, revops, and finance without six weeks of interviews."></textarea></label>
+      <label>Which workflows or teams would you observe first?<textarea name="scope" placeholder="Example: sales ops, support managers, analysts, onboarding specialists."></textarea></label>
+      <div class="form-actions">
+        <button class="cta" type="submit">Send request →</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="thanks" class="demo">
+    <h2>Got it.</h2>
+    <p>Thank you. We come back within one business day.</p>
+    <p><a class="quiet" href="/">← Back to gilb.ai</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="shell footer-line">
+    <span>Gilbreth — the photograph of on-computer work. <b style="color:var(--ink-2)">gilb.ai</b> · 2026</span>
+    <span>Named for the motion study of Frank &amp; Lillian Gilbreth.</span>
+  </div>
+</footer>
+
+</body>
+</html>
