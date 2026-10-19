@@ -76,6 +76,27 @@
     relationships.push([first + 17, first]);
     if (parent > 0) relationships.push([first + 2, first - 3]);
   }
+  // Stable neighborhoods on a three-dimensional sphere. Projection gives the
+  // network depth; damped motion keeps dragging and linked records responsive.
+  const anchors = nodes.slice(0, primaryCount).map((n, i) => {
+    if (n.id === 0) return { x: -.72, y: -.22, z: .66 };
+    if (n.id === 8) return { x: .64, y: -.35, z: .68 };
+    if (n.id === 14) return { x: .12, y: .72, z: .68 };
+    const y = 1 - 2 * (i + .5) / primaryCount;
+    const radius = Math.sqrt(1 - y * y), angle = i * 2.39996;
+    return { x: Math.cos(angle) * radius, y, z: Math.sin(angle) * radius };
+  });
+  for (const n of nodes) {
+    const anchor = anchors[n.small ? n.parent : n.id];
+    const angle = n.id * 2.39996;
+    const spread = n.small ? .12 + (n.id % 7) * .028 : 0;
+    const x = anchor.x + Math.cos(angle) * spread;
+    const y = anchor.y + Math.sin(angle) * spread;
+    const z = anchor.z + Math.sin(angle * 1.7) * spread;
+    const length = Math.hypot(x, y, z);
+    n.space = { x: x / length, y: y / length, z: z / length };
+    n.depth = 1;
+  }
   const neighbors = nodes.map(() => new Set());
   const create = (tag, attrs, parent) => {
     const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -121,13 +142,16 @@
     });
   });
 
+  nodes.filter(n => !n.small).forEach(n => root.querySelector('#graph-nodes').append(n.el));
+
   function paint() {
     const active = hovered ?? selected;
     for (const n of nodes) {
       const connected = active === null || active === n.id || neighbors[active].has(n.id);
       const matches = filter === null || n.group === filter;
       n.el.setAttribute('transform', `translate(${n.x.toFixed(2)} ${n.y.toFixed(2)})`);
-      n.el.style.opacity = connected && matches ? 1 : .2;
+      n.el.style.opacity = connected && matches ? .3 + n.depth * .7 : .12;
+      n.el.querySelector('.node-dot').setAttribute('r', n.small ? 1 + n.depth * 1.6 : n.hub ? 8 : 3 + n.depth * 2);
       n.el.classList.toggle('is-active', n.id === active);
       n.el.setAttribute('aria-pressed', String(n.id === selected));
       n.label.style.opacity = n.id === active || (!n.small && (n.hub || (active !== null && neighbors[active].has(n.id)))) ? 1 : 0;
@@ -139,8 +163,8 @@
       const related = active !== null && (e.a === active || e.b === active);
       const matches = filter === null || a.group === filter || b.group === filter;
       e.el.setAttribute('stroke', related ? '#bd452f' : '#8f7c6c');
-      e.el.setAttribute('stroke-opacity', !matches ? .05 : related ? .9 : active === null ? (a.small || b.small ? .3 : .52) : .07);
-      e.el.setAttribute('stroke-width', related ? 1.4 : (a.small || b.small ? .6 : 1));
+      e.el.setAttribute('stroke-opacity', !matches ? .05 : related ? .9 : active === null ? (a.small || b.small ? .12 + (a.depth + b.depth) * .14 : .38) : .07);
+      e.el.setAttribute('stroke-width', related ? 1.4 : (a.small || b.small ? .65 : 1));
     }
     signals.forEach((s, i) => {
       const a = nodes[s.edge.a], b = nodes[s.edge.b], t = (clock * .14 + i * .19) % 1;
@@ -148,50 +172,35 @@
       s.el.setAttribute('cy', a.y + (b.y - a.y) * t);
       s.el.style.opacity = selected === null && filter === null ? .8 : 0;
     });
-    world.setAttribute('transform', `translate(${300 + pan.x} ${202 + pan.y}) scale(${zoom})`);
+    world.setAttribute('transform', `translate(${300 + pan.x} ${245 + pan.y}) scale(${zoom})`);
   }
 
   function simulate(dt = 1) {
-    for (let i = 0; i < primaryCount; i++) {
-      const a = nodes[i];
-      const center = groups[a.group];
-      a.vx += (center.x - a.x) * .0018 * dt;
-      a.vy += (center.y - a.y) * .0018 * dt;
-      for (let j = i + 1; j < primaryCount; j++) {
-        const b = nodes[j];
-        let dx = a.x - b.x, dy = a.y - b.y;
-        const d2 = Math.max(80, dx * dx + dy * dy);
-        const force = (3.2 + (d2 < 1600 ? 14 : 0)) / d2 * dt;
-        a.vx += dx * force; a.vy += dy * force;
-        b.vx -= dx * force; b.vy -= dy * force;
-      }
-    }
-    for (const e of edges) {
-      const a = nodes[e.a], b = nodes[e.b];
-      if (a.small || b.small) continue;
-      const dx = b.x - a.x, dy = b.y - a.y;
-      const distance = Math.hypot(dx, dy) || 1;
-      const target = a.group === b.group ? 64 : 115;
-      const f = (distance - target) / distance * .0035 * dt;
-      a.vx += dx * f; a.vy += dy * f;
-      b.vx -= dx * f; b.vy -= dy * f;
-    }
+    const angle = clock * .045, c = Math.cos(angle), s = Math.sin(angle);
     for (const n of nodes) {
+      const x = n.space.x * c + n.space.z * s;
+      const z = n.space.z * c - n.space.x * s;
+      const perspective = 1 + z * .12;
+      n.depth = (z + 1) / 2;
+      n.targetX = x * 215 * perspective;
+      n.targetY = n.space.y * 205 * perspective;
+      if (drag?.node === n.id) { n.vx = 0; n.vy = 0; continue; }
+      let tx = n.targetX, ty = n.targetY;
       if (n.small) {
         const parent = nodes[n.parent];
-        const sway = running ? Math.sin(clock * .35 + n.id) * 2 : 0;
-        n.vx += (parent.x + n.ox + sway - n.x) * .035 * dt;
-        n.vy += (parent.y + n.oy - sway - n.y) * .035 * dt;
+        tx += (parent.x - parent.targetX) * .7;
+        ty += (parent.y - parent.targetY) * .7;
       }
-      if (drag?.node === n.id) { n.vx = 0; n.vy = 0; continue; }
-      n.vx *= Math.pow(.83, dt); n.vy *= Math.pow(.83, dt);
-      n.x = Math.max(-280, Math.min(280, n.x + n.vx * dt));
-      n.y = Math.max(-175, Math.min(175, n.y + n.vy * dt));
+      n.vx = (n.vx + (tx - n.x) * .022 * dt) * Math.pow(.75, dt);
+      n.vy = (n.vy + (ty - n.y) * .022 * dt) * Math.pow(.75, dt);
+      n.x += n.vx * dt;
+      n.y += n.vy * dt;
     }
   }
 
   function select(id) {
     selected = id;
+    root.classList.toggle('has-selection', id !== null);
     const n = id === null ? null : nodes[id];
     root.querySelector('#graph-kind').textContent = n ? `${groups[n.group].label.toUpperCase()} / ${neighbors[id].size} CONNECTIONS` : 'EXPLORE THE CONNECTIONS';
     root.querySelector('#graph-title').textContent = n ? n.title : 'Every record has a story.';
@@ -265,7 +274,7 @@
     if (Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) > 4) drag.moved = true;
     if (drag.node !== null) {
       const n = nodes[drag.node];
-      n.x = (p.x - 300 - pan.x) / zoom; n.y = (p.y - 202 - pan.y) / zoom;
+      n.x = (p.x - 300 - pan.x) / zoom; n.y = (p.y - 245 - pan.y) / zoom;
       n.vx = 0; n.vy = 0;
     } else {
       pan.x = Math.max(-350, Math.min(350, drag.panX + p.x - drag.x));
