@@ -5,7 +5,6 @@
   const context = canvas.getContext('2d', { alpha: true });
   if (!context) return;
   const art = canvas.parentElement;
-  const toggle = art.querySelector('.particle-toggle');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let playing = !reduced.matches;
   let visible = true;
@@ -97,8 +96,6 @@
     cancelAnimationFrame(frame);
     frame = 0;
     previous = 0;
-    toggle.textContent = playing ? 'Pause animation' : 'Play animation';
-    toggle.setAttribute('aria-label', toggle.textContent);
     if (playing && visible && !document.hidden) frame = requestAnimationFrame(tick);
   }
   function resize() {
@@ -111,8 +108,7 @@
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     draw();
   }
-  toggle.addEventListener('click', () => { playing = !playing; sync(); });
-  reduced.addEventListener('change', event => { if (event.matches) playing = false; sync(); });
+  reduced.addEventListener('change', event => { playing = !event.matches; sync(); });
   document.addEventListener('visibilitychange', sync);
   new ResizeObserver(resize).observe(art);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(art);
