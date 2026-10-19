@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://gilb.ai/transformation/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f0e2'/><path d='M26 69V31h30v8H36v22h24v8H26Zm41 0V31h8v38h-8Z' fill='%231c1813'/></svg>">
 <link rel="stylesheet" href="/site.css?v=20261019-simple"><link rel="stylesheet" href="/transformation/style.css?v=20261019">
-<link rel="stylesheet" href="/presentation.css?v=20261019-wraps"></head>
+<link rel="stylesheet" href="/presentation.css?v=20261019-form"></head>
 <body class="transformation-page">
 
 <a class="skip" href="#main">Skip to content</a>
@@ -65,58 +65,23 @@
     <div class="shell">
       <h2>Request a demo.</h2>
       <p>If you run AI transformation work and want to see how this compresses discovery, send a structured request. Use case first — no generic vendor tour. Replies within one business day.</p>
-      <form class="demo-form" id="demo-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="e0ee21a0-f0e6-4338-bbd8-c36deb3724a1">
-        <input type="hidden" name="subject" value="Gilbreth demo request">
-        <input type="hidden" name="from_name" value="Gilbreth — gilb.ai">
-        <input type="hidden" name="redirect" value="https://gilb.ai/transformation/#thanks">
-        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="row-2">
-          <label>Full name<input autocomplete="name" type="text" name="name" required placeholder="Jane Smith"></label>
-          <label>Work email<input autocomplete="email" type="email" name="email" required placeholder="jane@company.com"></label>
-        </div>
-        <div class="row-2">
-          <label>Company<input autocomplete="organization" type="text" name="company" required placeholder="Firm or company name"></label>
-          <label>Role<input autocomplete="organization-title" type="text" name="role" required placeholder="Partner, transformation lead, …"></label>
-        </div>
-        <div class="row-2">
-          <label>Team type
-            <select name="team_type" required>
-              <option value="">Select one</option>
-              <option>External AI transformation consultancy</option>
-              <option>Internal transformation / ops team</option>
-              <option>Portfolio operations / PE value creation</option>
-              <option>Other</option>
-            </select>
-          </label>
-          <label>Priority timeline
-            <select name="timeline" required>
-              <option value="">Select one</option>
-              <option>Immediate pilot in 30 days</option>
-              <option>Exploration this quarter</option>
-              <option>Researching for later</option>
-            </select>
-          </label>
-        </div>
-        <label>What transformation problem are you trying to solve?<textarea name="problem" required placeholder="Example: we need a faster way to identify automation opportunities across support, revops, and finance without running six weeks of interviews."></textarea></label>
-        <label>What workflows or teams would you want to observe first?<textarea name="scope" placeholder="Example: sales ops, support managers, analysts, onboarding specialists."></textarea></label>
-        <div class="form-actions">
-          <button class="button" type="submit">Send request →</button>
-        </div>
-      </form>
+      <form class="lead-form" data-lead-form data-source="transformation" method="post">
+<p class="form-required">Fields marked * are required.</p>
+<div class="lead-row"><label>Your name *<input name="name" autocomplete="name" maxlength="120" required placeholder="Jane Smith"></label><label>Company size *<input name="companySize" maxlength="120" required placeholder="e.g. 300–1000 employees"></label></div>
+<label>What are you looking for? *<textarea name="lookingFor" rows="4" maxlength="2000" required placeholder="What outcomes are you expecting?"></textarea></label>
+<div class="lead-row"><label>Email *<input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@company.com"></label><label>WhatsApp number (optional)<input name="whatsapp" type="tel" autocomplete="tel" maxlength="50" placeholder="+1 415 555 0123"></label></div>
+<div class="lead-trap" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<input type="hidden" name="requestId"><input type="hidden" name="source" value="transformation">
+<div class="lead-actions"><button class="button" type="submit">Request a call <span aria-hidden="true">↗</span></button><p class="lead-status" role="status" aria-live="polite"></p></div>
+<noscript><p>Please enable JavaScript to send your request.</p></noscript>
+</form>
     </div>
   </section>
 
-  <section id="thanks">
-    <div class="shell">
-      <h2>Got it.</h2>
-      <p>Thank you. We come back within one business day.</p>
-      <p><a href="/" style="color:var(--muted)">← Back to gilb.ai</a></p>
-    </div>
-  </section>
 </main>
 
-<footer class="site-footer wrap"><div class="footer-top"><a class="site-brand" href="/">gilb<span class="brand-domain">.ai</span></a><p>Better context.<br>More useful AI.</p><div class="footer-links"><a href="/">Company Brain ↗</a><a href="/transformation/">AI transformation ↗</a><a href="https://t.me/gilbrethai_bot">Talk to us ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gilb</span><span>Infrastructure. Memory. Transformation.</span></div></footer>
+<footer class="site-footer wrap"><div class="footer-top"><a class="site-brand" href="/">gilb<span class="brand-domain">.ai</span></a><p>Better context.<br>More useful AI.</p><div class="footer-links"><a href="/">Company Brain ↗</a><a href="/transformation/">AI transformation ↗</a><a href="#demo">Talk to us ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gilb</span><span>Infrastructure. Memory. Transformation.</span></div></footer>
 
+<script src="/lead-config.js?v=20261019-form"></script><script src="/lead-form.js?v=20261019-form" defer></script>
 </body>
 </html>
