@@ -6,11 +6,11 @@
   const world = root.querySelector('#graph-world');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const groups = {
-    records: { label: 'Record', color: '#443a32', x: -130, y: -60 },
-    decisions: { label: 'Decision', color: '#bd452f', x: 125, y: -55 },
-    history: { label: 'History', color: '#aa8063', x: 5, y: 110 }
+    records: { label: 'Record', color: '#443a32', x: -105, y: -45 },
+    decisions: { label: 'Decision', color: '#bd452f', x: 105, y: -40 },
+    history: { label: 'History', color: '#aa8063', x: 5, y: 75 }
   };
-  // This small fictional dataset mirrors the illustrative answers below.
+  // This fictional dataset mirrors the illustrative answers below.
   // Links are actual relationships; the layout is a spring simulation.
   const data = [
     ['records', 'Client pilot', 'The shared context for a fictional sales pilot.', true],
@@ -41,7 +41,8 @@
     [8,9],[8,10],[8,11],[8,12],[8,13],
     [14,15],[14,16],[14,17],[14,18],[14,19],[14,20],[14,21],
     [1,9],[2,9],[1,15],[2,15],[1,17],[3,11],[4,12],[5,12],[6,12],
-    [7,13],[10,11],[10,16],[11,18],[16,18],[17,18],[19,20],[19,21],[13,19],[13,20]
+    [7,13],[10,11],[10,16],[11,18],[16,18],[17,18],[19,20],[19,21],[13,19],[13,20],
+    [0,8],[8,14],[14,0],[3,16],[6,18],[5,13],[7,20],[2,10],[4,17],[9,21],[12,15],[11,19]
   ];
   const nodes = data.map(([group, title, description, hub], id) => {
     const angle = id * 2.39996;
@@ -49,6 +50,32 @@
     return { id, group, title, description, hub, x: groups[group].x + Math.cos(angle) * radius,
       y: groups[group].y + Math.sin(angle) * radius, vx: 0, vy: 0 };
   });
+  const primaryCount = nodes.length;
+  const fragments = {
+    records: ['Source excerpt', 'Document reference', 'Context note', 'Meeting extract', 'Client reference', 'Related document', 'Supporting evidence', 'Source version'],
+    decisions: ['Decision context', 'Review note', 'Supporting record', 'Scope reference', 'Rationale', 'Follow-up note', 'Acceptance note', 'Linked discussion'],
+    history: ['Retained snapshot', 'Dated reference', 'Version note', 'Source timestamp', 'Change reference', 'Archived context', 'Earlier record', 'Timeline entry']
+  };
+  // Each record has a small neighborhood of source fragments. The fragments
+  // follow their parent through damped springs instead of repelling every node.
+  for (let parent = 0; parent < primaryCount; parent++) {
+    const center = nodes[parent];
+    const first = nodes.length;
+    for (let j = 0; j < 18; j++) {
+      const angle = j * 2.39996 + parent * .71;
+      const radius = 13 + Math.sqrt((j + 1) / 18) * (center.hub ? 40 : 32);
+      const ox = Math.cos(angle) * radius, oy = Math.sin(angle) * radius;
+      nodes.push({ id: nodes.length, group: center.group, parent,
+        title: `${fragments[center.group][j % 8]} ${Math.floor(j / 8) + 1}`,
+        description: `Illustrative source fragment connected to “${center.title}”. Explore the parent record for its business context.`,
+        x: center.x + ox, y: center.y + oy, ox, oy, vx: 0, vy: 0, small: true });
+      relationships.push([parent, first + j]);
+      if (j > 0) relationships.push([first + j - 1, first + j]);
+      if (j > 2) relationships.push([first + j - 3, first + j]);
+    }
+    relationships.push([first + 17, first]);
+    if (parent > 0) relationships.push([first + 2, first - 3]);
+  }
   const neighbors = nodes.map(() => new Set());
   const create = (tag, attrs, parent) => {
     const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -64,17 +91,17 @@
   let zoom = 1, pan = { x: 0, y: 0 }, running = !reduced.matches;
   let visible = false, frame = null, lastTime = 0, clock = 0, drag = null;
   const motion = root.querySelector('#motion');
-  const signals = edges.filter((_, i) => i % 5 === 0).map(edge => ({
-    edge, el: create('circle', { r: 1.8, fill: '#bd452f' }, root.querySelector('#graph-signals'))
+  const signals = edges.filter((_, i) => i % 17 === 0).map(edge => ({
+    edge, el: create('circle', { r: 1.5, fill: '#bd452f' }, root.querySelector('#graph-signals'))
   }));
 
   nodes.forEach(n => {
     n.el = create('g', { role: 'button', tabindex: n.id === 0 ? 0 : -1,
       'aria-label': `${n.title}. ${groups[n.group].label}. ${neighbors[n.id].size} connections.`,
       'aria-pressed': 'false', class: 'knowledge-node', 'data-node': n.id }, root.querySelector('#graph-nodes'));
-    create('circle', { r: n.hub ? 22 : 18, class: 'node-hit' }, n.el);
-    create('circle', { r: n.hub ? 12 : 7, class: 'node-ring', stroke: groups[n.group].color }, n.el);
-    create('circle', { r: n.hub ? 7 : 4, fill: groups[n.group].color, class: 'node-dot' }, n.el);
+    create('circle', { r: n.small ? 6 : n.hub ? 20 : 12, class: 'node-hit' }, n.el);
+    create('circle', { r: n.small ? 4.5 : n.hub ? 13 : 8, class: 'node-ring', stroke: groups[n.group].color }, n.el);
+    create('circle', { r: n.small ? 1.3 + (n.id % 4) * .35 : n.hub ? 8.5 : 4.7, fill: groups[n.group].color, class: 'node-dot' }, n.el);
     n.label = create('text', { x: 0, y: n.hub ? 29 : 21, 'text-anchor': 'middle' }, n.el);
     n.label.textContent = n.title;
     n.el.addEventListener('pointerenter', () => { hovered = n.id; paint(); });
@@ -103,7 +130,7 @@
       n.el.style.opacity = connected && matches ? 1 : .2;
       n.el.classList.toggle('is-active', n.id === active);
       n.el.setAttribute('aria-pressed', String(n.id === selected));
-      n.label.style.opacity = n.hub || n.id === active || (active !== null && neighbors[active].has(n.id)) ? 1 : 0;
+      n.label.style.opacity = n.id === active || (!n.small && (n.hub || (active !== null && neighbors[active].has(n.id)))) ? 1 : 0;
     }
     for (const e of edges) {
       const a = nodes[e.a], b = nodes[e.b];
@@ -112,8 +139,8 @@
       const related = active !== null && (e.a === active || e.b === active);
       const matches = filter === null || a.group === filter || b.group === filter;
       e.el.setAttribute('stroke', related ? '#bd452f' : '#8f7c6c');
-      e.el.setAttribute('stroke-opacity', !matches ? .05 : related ? .9 : active === null ? .38 : .07);
-      e.el.setAttribute('stroke-width', related ? 1.5 : .8);
+      e.el.setAttribute('stroke-opacity', !matches ? .05 : related ? .9 : active === null ? (a.small || b.small ? .3 : .52) : .07);
+      e.el.setAttribute('stroke-width', related ? 1.4 : (a.small || b.small ? .6 : 1));
     }
     signals.forEach((s, i) => {
       const a = nodes[s.edge.a], b = nodes[s.edge.b], t = (clock * .14 + i * .19) % 1;
@@ -125,12 +152,12 @@
   }
 
   function simulate(dt = 1) {
-    for (let i = 0; i < nodes.length; i++) {
+    for (let i = 0; i < primaryCount; i++) {
       const a = nodes[i];
       const center = groups[a.group];
       a.vx += (center.x - a.x) * .0018 * dt;
       a.vy += (center.y - a.y) * .0018 * dt;
-      for (let j = i + 1; j < nodes.length; j++) {
+      for (let j = i + 1; j < primaryCount; j++) {
         const b = nodes[j];
         let dx = a.x - b.x, dy = a.y - b.y;
         const d2 = Math.max(80, dx * dx + dy * dy);
@@ -141,18 +168,25 @@
     }
     for (const e of edges) {
       const a = nodes[e.a], b = nodes[e.b];
+      if (a.small || b.small) continue;
       const dx = b.x - a.x, dy = b.y - a.y;
       const distance = Math.hypot(dx, dy) || 1;
-      const target = a.group === b.group ? 64 : 145;
+      const target = a.group === b.group ? 64 : 115;
       const f = (distance - target) / distance * .0035 * dt;
       a.vx += dx * f; a.vy += dy * f;
       b.vx -= dx * f; b.vy -= dy * f;
     }
     for (const n of nodes) {
+      if (n.small) {
+        const parent = nodes[n.parent];
+        const sway = running ? Math.sin(clock * .35 + n.id) * 2 : 0;
+        n.vx += (parent.x + n.ox + sway - n.x) * .035 * dt;
+        n.vy += (parent.y + n.oy - sway - n.y) * .035 * dt;
+      }
       if (drag?.node === n.id) { n.vx = 0; n.vy = 0; continue; }
       n.vx *= Math.pow(.83, dt); n.vy *= Math.pow(.83, dt);
-      n.x = Math.max(-260, Math.min(260, n.x + n.vx * dt));
-      n.y = Math.max(-155, Math.min(155, n.y + n.vy * dt));
+      n.x = Math.max(-280, Math.min(280, n.x + n.vx * dt));
+      n.y = Math.max(-175, Math.min(175, n.y + n.vy * dt));
     }
   }
 
@@ -177,6 +211,10 @@
   function animate(time) {
     frame = null;
     if (!running || !visible || document.hidden) return;
+    if (lastTime && time - lastTime < 32) {
+      frame = requestAnimationFrame(animate);
+      return;
+    }
     const dt = lastTime ? Math.min(2, (time - lastTime) / 16.667) : 1;
     lastTime = time; clock += dt / 60;
     simulate(dt); paint();
