@@ -109,7 +109,7 @@
     return { a, b, el: create('line', {}, root.querySelector('#graph-edges')) };
   });
   let selected = null, hovered = null, filter = null, focusIndex = 0;
-  let zoom = 1, pan = { x: 0, y: 0 }, running = !reduced.matches;
+  let zoom = 1, pan = { x: 0, y: 0 }, running = false;
   let visible = false, frame = null, lastTime = 0, clock = 0, drag = null;
   const motion = root.querySelector('#motion');
   const signals = edges.filter((_, i) => i % 17 === 0).map(edge => ({
@@ -237,7 +237,7 @@
     }
   }
   function updateMotion() {
-    motion.textContent = running ? 'Ⅱ' : '▷';
+    motion.textContent = running ? 'Pause' : 'Play';
     motion.setAttribute('aria-label', running ? 'Pause animation' : 'Play animation');
     schedule();
   }
@@ -313,7 +313,7 @@
     button.addEventListener('click', () => setFilter(filter === button.dataset.group ? null : button.dataset.group));
   });
   motion.addEventListener('click', () => { running = !running; updateMotion(); });
-  reduced.addEventListener('change', e => { running = !e.matches; updateMotion(); });
+  reduced.addEventListener('change', e => { if (e.matches) { running = false; updateMotion(); } });
   document.addEventListener('visibilitychange', schedule);
   new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; schedule(); }).observe(root);
   for (let i = 0; i < 160; i++) simulate();
