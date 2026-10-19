@@ -5,285 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gilbreth — AI Transformation Discovery</title>
 <meta name="description" content="Gilbreth helps AI transformation teams capture real work and surface automation opportunities faster.">
-<meta name="theme-color" content="#f5f0e2">
+<meta name="theme-color" content="#f5f4ee"><link rel="canonical" href="https://gilb.ai/transformation/">
 <meta property="og:title" content="Gilbreth">
 <meta property="og:description" content="Capture real work. Surface automation opportunities. Run sharper AI transformation demos.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://farol.team/gilb/">
+<meta property="og:url" content="https://gilb.ai/transformation/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23f5f0e2'/><path d='M26 69V31h30v8H36v22h24v8H26Zm41 0V31h8v38h-8Z' fill='%231c1813'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f5f0e2;
-  --ink: #1a1612;
-  --ink-2: #3a3328;
-  --muted: #7a7166;
-  --line: rgba(26, 22, 18, 0.12);
-  --accent: #8a5a1e;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  font-size: 16.5px;
-  line-height: 1.6;
-  color: var(--ink);
-  background: var(--bg);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-a { color: inherit; }
-::selection { background: var(--accent); color: var(--bg); }
-.shell { width: min(720px, calc(100% - 48px)); margin: 0 auto; }
-
-h1, h2, h3 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 700;
-  letter-spacing: -0.012em;
-  color: var(--ink);
-  margin: 0;
-}
-p { margin: 0 0 1em; color: var(--ink-2); }
-
-/* ---------- topbar ---------- */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(245, 240, 226, 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-.topbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 0;
-}
-.brand {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  text-decoration: none;
-}
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-.nav a {
-  font-size: 14px;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.18s ease;
-}
-.nav a:hover { color: var(--ink); }
-.nav .nav-cta { color: var(--ink); font-weight: 500; }
-
-/* ---------- hero ---------- */
-.hero {
-  padding: 88px 0 64px;
-}
-h1 {
-  font-size: clamp(40px, 5.4vw, 60px);
-  line-height: 1.05;
-  margin: 0 0 28px;
-  max-width: 18ch;
-}
-.hero-sub {
-  font-size: 19px;
-  line-height: 1.55;
-  color: var(--ink-2);
-  max-width: 54ch;
-  margin: 0 0 36px;
-}
-.button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 26px;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--bg);
-  font-family: "Inter", system-ui, sans-serif;
-  font-size: 14.5px;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: background 0.16s ease, border-color 0.16s ease;
-}
-.button:hover { background: var(--accent); border-color: var(--accent); }
-
-/* ---------- sections ---------- */
-section { padding: 64px 0; border-top: 1px solid var(--line); }
-#thanks { display: none; }
-#thanks:target { display: block; }
-.eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 24px;
-  font-weight: 500;
-}
-h2 {
-  font-size: clamp(26px, 3.4vw, 36px);
-  line-height: 1.1;
-  margin: 0 0 24px;
-  max-width: 22ch;
-}
-section > p {
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--ink-2);
-  max-width: 60ch;
-  margin: 0 0 28px;
-}
-section h3 {
-  font-size: 18px;
-  margin: 28px 0 8px;
-  font-weight: 700;
-}
-section h3:first-child { margin-top: 0; }
-section h3 + p { color: var(--ink-2); font-size: 16px; line-height: 1.6; }
-section h3 + p:last-child { margin-bottom: 0; }
-
-/* ---------- demo form ---------- */
-.demo-form { margin-top: 8px; display: grid; gap: 18px; max-width: 100%; }
-.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-label {
-  display: grid;
-  gap: 8px;
-  font-size: 13.5px;
-  color: var(--muted);
-  font-weight: 500;
-}
-input, textarea, select {
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid var(--ink);
-  border-radius: 0;
-  padding: 10px 2px;
-  background: transparent;
-  color: var(--ink);
-  font-family: "Inter", system-ui, sans-serif;
-  font-size: 16px;
-  resize: vertical;
-}
-input:focus, textarea:focus, select:focus { outline: none; border-bottom-color: var(--accent); }
-textarea { min-height: 110px; }
-select {
-  appearance: none;
-  cursor: pointer;
-  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
-  background-position: calc(100% - 14px) 18px, calc(100% - 8px) 18px;
-  background-size: 6px 6px;
-  background-repeat: no-repeat;
-  padding-right: 24px;
-}
-.form-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
-
-/* ---------- footer ---------- */
-footer {
-  border-top: 1px solid var(--line);
-  padding: 32px 0 56px;
-  font-size: 13.5px;
-  color: var(--muted);
-}
-.footer-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-.footer-line a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
-.footer-line a:hover { border-color: var(--ink); }
-
-@media (max-width: 600px) {
-  .nav a:not(.nav-cta) { display: none; }
-  .row-2 { grid-template-columns: 1fr; }
-  .hero { padding: 56px 0 40px; }
-  section { padding: 48px 0; }
-}
-</style>
+<link rel="stylesheet" href="/site.css?v=20261019"><link rel="stylesheet" href="/transformation/style.css?v=20261019">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="shell topbar-inner">
-    <a class="brand" href="/">Gilbreth</a>
-    <nav class="nav">
-      <a href="#why">Why</a>
-      <a href="#how">How</a>
-      <a href="#fit">Fit</a>
-      <a class="nav-cta" href="#demo">Book a demo →</a>
-    </nav>
-  </div>
-</header>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="wrap header-inner">
+<a class="site-brand" href="/" aria-label="Gilb home"><span class="brand-symbol" aria-hidden="true">g<span>·</span></span>gilb<span class="brand-domain">.ai</span></a>
+<nav class="site-nav" aria-label="Main navigation">
+<a href="/" >Company Brain</a>
+<a href="/transformation/" aria-current="page">Transformation</a>
+</nav><a class="header-cta" href="#demo">Let’s talk <span aria-hidden="true">↗</span></a>
+</div></header>
 
-<main>
-  <section class="hero" style="border-top:0">
+<main id="main">
+  <section class="hero"><div class="wrap hero-index"><span>02 / AI TRANSFORMATION</span><span>FROM REAL WORK TO RUNNABLE SKILLS.</span></div>
     <div class="shell">
-      <div class="eyebrow">Built for the people leading AI transformation</div>
-      <h1>AI transformation needs full context. We capture the work on your computers.</h1>
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> BUILT FOR TRANSFORMATION LEADERS</div>
+      <h1>Real work.<br>Full context.<br><em>Better transformation.</em></h1>
       <p class="hero-sub">Reaching real AI transformation means understanding how work actually gets done — and a huge part of that lives on screens. Gilbreth captures the useful on-computer work, keeps only what matters, and turns repeated actions into skills your agents can run.</p>
-      <a class="button" href="#demo">Book a demo →</a>
-    </div>
+      <div class="hero-actions"><a class="button" href="#demo">Book a demo <span aria-hidden="true">↗</span></a><a class="text-link" href="#how">See how it works ↓</a></div><p class="hero-note">For consulting teams and internal transformation leaders.</p>
+    </div><div class="work-map" role="img" aria-label="Illustrative workflow: screen activity is reviewed for repeated actions and turned into an agent skill."><div class="map-top"><span>THE WORK BEHIND THE WORK</span><span>FIG. 02</span></div><div class="work-window"><div class="window-bar"><span><i></i><i></i><i></i></span><span>Observed workflow</span><span>↗</span></div><div class="window-body"><aside><b></b><b></b><b></b><b></b></aside><div class="window-content"><div class="skeleton-heading"></div><div class="skeleton-line"></div><div class="workflow-row"><span>01</span><div><strong>Review a client record</strong><small>CRM → context</small></div><span class="row-check">✓</span></div><div class="workflow-row"><span>02</span><div><strong>Reconcile the details</strong><small>Documents → comparison</small></div><span class="row-check">✓</span></div><div class="workflow-row selected"><span>03</span><div><strong>Prepare the handoff</strong><small>Repeated action identified</small></div><span class="row-check">↗</span></div></div></div></div><div class="map-connector"><span></span><b>HUMAN REVIEW</b><span></span></div><div class="skill-output"><span class="skill-mark">↳</span><div><small>OUTPUT / AGENT SKILL</small><strong>A repeatable way of working.</strong></div><span>↗</span></div><p class="map-foot">Illustrative workflow · Useful signals, reviewed by people.</p></div>
   </section>
 
-  <section id="why">
+  <section id="why"><div class="section-label wrap"><span>01 / THE DISCOVERY GAP</span><span>SEE WHAT INTERVIEWS MISS</span></div>
     <div class="shell">
       <h2>Discovery is still too manual.</h2>
       <p>Most teams still map automation opportunities through interviews and reconstruction. That makes the first phase slow, expensive, and noisy.</p>
 
-      <h3>Interview bias.</h3>
-      <p>People describe what they think they do — not what they actually repeat all day across tabs, inboxes, and docs.</p>
-
-      <h3>Process blind spots.</h3>
-      <p>System logs miss the manual last mile. Copy-paste, reconciliation, and ad-hoc handoffs rarely show up in process mining.</p>
-
-      <h3>Consulting drag.</h3>
-      <p>Senior time gets burned on raw discovery. Your experts collect facts instead of judging, designing, and selling the transformation.</p>
+<div class="detail-grid"><article class="detail-card"><span class="card-index">01</span><h3>Interview bias.</h3><p>People describe what they think they do — not what they actually repeat all day across tabs, inboxes, and docs.</p></article><article class="detail-card"><span class="card-index">02</span><h3>Process blind spots.</h3><p>System logs miss the manual last mile. Copy-paste, reconciliation, and ad-hoc handoffs rarely show up in process mining.</p></article><article class="detail-card"><span class="card-index">03</span><h3>Consulting drag.</h3><p>Senior time gets burned on raw discovery. Your experts collect facts instead of judging, designing, and selling the transformation.</p></article></div>
     </div>
   </section>
 
-  <section id="how">
+  <section id="how"><div class="section-label wrap"><span>02 / HOW GILBRETH WORKS</span><span>USEFUL SIGNALS. HUMAN JUDGMENT.</span></div>
     <div class="shell">
       <h2>Observe. Distill. Hand off.</h2>
       <p>The visible output is runnable skills for your agents. The accumulating asset is a real map of the useful work that happens on your computers.</p>
 
-      <h3>What we capture.</h3>
-      <p>Screen activity and mouse-level signals — the repeated last mile that logs and process mining never see. Privacy is a hard constraint: we keep only what's needed.</p>
-
-      <h3>What we output.</h3>
-      <p>Repeated actions become skills your agents can run, with a human reviewing what's worth automating.</p>
+<div class="detail-grid"><article class="detail-card"><span class="card-index">01</span><h3>What we capture.</h3><p>Screen activity and mouse-level signals — the repeated last mile that logs and process mining never see. Privacy is a hard constraint: we keep only what's needed.</p></article><article class="detail-card"><span class="card-index">02</span><h3>What we output.</h3><p>Repeated actions become skills your agents can run, with a human reviewing what's worth automating.</p></article></div>
     </div>
   </section>
 
-  <section id="fit">
+  <section id="fit"><div class="section-label wrap"><span>03 / WHO IT’S FOR</span><span>BUILT FOR THE PEOPLE LEADING CHANGE</span></div>
     <div class="shell">
       <h2>For the people already running transformation.</h2>
       <p>The primary buyer is the consultant or internal team responsible for moving the company from AI theater to actual redesign.</p>
 
-      <h3>External consulting teams.</h3>
-      <p>Gilbreth shortens discovery and gives your client work grounded in observed reality.</p>
-
-      <h3>Internal transformation leaders.</h3>
-      <p>For ops, strategy, enablement, and AI-native taskforces that need to see where repetitive work actually lives.</p>
-
-      <h3>Not for surveillance programs.</h3>
-      <p>The manager sees the notebook of what can be automated — never a camera feed. If the goal is productivity policing, this is the wrong product.</p>
+<div class="detail-grid"><article class="detail-card"><span class="card-index">01</span><h3>External consulting teams.</h3><p>Gilbreth shortens discovery and gives your client work grounded in observed reality.</p></article><article class="detail-card"><span class="card-index">02</span><h3>Internal transformation leaders.</h3><p>For ops, strategy, enablement, and AI-native taskforces that need to see where repetitive work actually lives.</p></article><article class="detail-card"><span class="card-index">03</span><h3>Not for surveillance programs.</h3><p>The manager sees the notebook of what can be automated — never a camera feed. If the goal is productivity policing, this is the wrong product.</p></article></div>
     </div>
   </section>
 
-  <section id="demo">
+  <section id="demo"><div class="section-label wrap"><span>04 / START A CONVERSATION</span><span>YOUR USE CASE FIRST</span></div>
     <div class="shell">
       <h2>Request a demo.</h2>
       <p>If you run AI transformation work and want to see how this compresses discovery, send a structured request. Use case first — no generic vendor tour. Replies within one business day.</p>
@@ -291,15 +69,15 @@ footer {
         <input type="hidden" name="access_key" value="e0ee21a0-f0e6-4338-bbd8-c36deb3724a1">
         <input type="hidden" name="subject" value="Gilbreth demo request">
         <input type="hidden" name="from_name" value="Gilbreth — gilb.ai">
-        <input type="hidden" name="redirect" value="https://gilb.ai/#thanks">
+        <input type="hidden" name="redirect" value="https://gilb.ai/transformation/#thanks">
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="row-2">
-          <label>Full name<input type="text" name="name" required placeholder="Jane Smith"></label>
-          <label>Work email<input type="email" name="email" required placeholder="jane@company.com"></label>
+          <label>Full name<input autocomplete="name" type="text" name="name" required placeholder="Jane Smith"></label>
+          <label>Work email<input autocomplete="email" type="email" name="email" required placeholder="jane@company.com"></label>
         </div>
         <div class="row-2">
-          <label>Company<input type="text" name="company" required placeholder="Firm or company name"></label>
-          <label>Role<input type="text" name="role" required placeholder="Partner, transformation lead, …"></label>
+          <label>Company<input autocomplete="organization" type="text" name="company" required placeholder="Firm or company name"></label>
+          <label>Role<input autocomplete="organization-title" type="text" name="role" required placeholder="Partner, transformation lead, …"></label>
         </div>
         <div class="row-2">
           <label>Team type
@@ -338,12 +116,7 @@ footer {
   </section>
 </main>
 
-<footer>
-  <div class="shell footer-line">
-    <span>Gilbreth, 2026.</span>
-    
-  </div>
-</footer>
+<footer class="site-footer wrap"><div class="footer-top"><a class="site-brand" href="/">gilb<span class="brand-domain">.ai</span></a><p>Better context.<br>More useful AI.</p><div class="footer-links"><a href="/">Company Brain ↗</a><a href="/transformation/">AI transformation ↗</a><a href="https://t.me/gilbrethai_bot">Talk to us ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gilb</span><span>Infrastructure. Memory. Transformation.</span></div></footer>
 
 </body>
 </html>
