@@ -44,6 +44,10 @@ a{color:inherit}
 @media(min-width:1024px){.wrap{padding:0 32px}}
 
 /* header */
+.header-inner{flex-wrap:wrap;gap:16px}
+.site-nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+.site-nav a{display:inline-block;padding:10px 0;text-underline-offset:4px}
+@media(max-width:650px){.site-nav{order:3;width:100%}}
 .header{border-bottom:1px solid var(--line)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:13px}
 .brand{font-weight:500;color:var(--ink);text-decoration:none}
@@ -147,6 +151,7 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
   <header class="header">
     <div class="wrap header-inner">
       <a class="brand" href="/">Gilbreth</a>
+      <nav class="site-nav" aria-label="Main navigation"><a href="/">Company Brain</a><a href="/transformation/">Transformation</a><a href="/#cases">Cases</a></nav>
       <div class="status"><span class="dot"></span><span>In production</span></div>
     </div>
   </header>
