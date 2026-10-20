@@ -1,0 +1,7 @@
+/* Stable-width word rotation; the heading has a static accessible name. */
+.brain-headline-intro{display:block}.brain-headline-ending{display:inline-block;white-space:nowrap}.brain-word{display:inline-grid;vertical-align:baseline}.brain-word>span{grid-area:1/1;text-align:left}.brain-word-ai{opacity:0}
+@media(prefers-reduced-motion:no-preference){.brain-word-second{animation:brain-second 6s infinite}.brain-word-ai{animation:brain-ai 6s infinite}}
+@keyframes brain-second{0%,42%,100%{opacity:1;transform:translateY(0)}48%,92%{opacity:0;transform:translateY(-.12em)}98%{opacity:1;transform:translateY(0)}}
+@keyframes brain-ai{0%,42%,100%{opacity:0;transform:translateY(.12em)}48%,92%{opacity:1;transform:translateY(0)}98%{opacity:0;transform:translateY(.12em)}}
+
+.brain-adjective{color:var(--accent)}.hero h1.brain-headline{font-size:clamp(32px,4.3vw,44px)}
