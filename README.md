@@ -4,7 +4,7 @@ Public Company Brain website, hosted on GitHub Pages at [gilb.ai](https://gilb.a
 
 - `/`: Company Brain landing page, stylesheet, and interactive examples.
 - `/transformation/`: previous Gilbreth AI transformation landing page.
-- `index2.html`: existing alternative design.
+- `_old/`: archived alternative designs, excluded from the published site.
 
 Static HTML, CSS, and JavaScript. No build step.
 
