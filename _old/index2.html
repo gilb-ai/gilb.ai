@@ -123,8 +123,17 @@ input:focus,textarea:focus,select:focus{border-color:var(--ink)}
 textarea{min-height:90px;resize:vertical}
 select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 14px) 14px,calc(100% - 8px) 14px;background-size:6px 6px;background-repeat:no-repeat;padding-right:28px}
 .form-actions{margin-top:4px}
-#thanks{display:none}
-#thanks:target{display:block}
+/* Shared enquiry behaviour, styled for this alternative page. */
+.lead-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.lead-form label{display:grid;gap:8px;font-size:12px}
+.lead-form input:not([type=hidden]),.lead-form textarea{min-height:44px}
+.lead-actions{display:grid;gap:12px;justify-items:start}
+.lead-form .form-required,.lead-form .lead-status{margin:0;font-size:12px;line-height:1.6}
+.lead-form .lead-status[data-state=error]{color:#9b3024}
+.lead-form .lead-trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.lead-form [hidden]{display:none!important}.lead-receipt{display:none}
+.lead-form [type=submit]:disabled{opacity:.65;cursor:wait}
+@media(max-width:640px){.lead-row{grid-template-columns:1fr}.lead-form [type=submit]{width:100%;justify-content:center}}
 
 /* footer */
 .footer{border-top:1px solid var(--line);margin-top:0}
@@ -222,54 +231,16 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
       <div class="card-head">Request a readout</div>
       <div class="demo-body">
         <p>You run AI transformation work and want to see how this compresses discovery. Send a structured request — use case first, no generic vendor tour. We reply within one business day.</p>
-        <form class="form" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="e0ee21a0-f0e6-4338-bbd8-c36deb3724a1">
-          <input type="hidden" name="subject" value="Gilbreth readout request">
-          <input type="hidden" name="from_name" value="Gilbreth — gilb.ai">
-          <input type="hidden" name="redirect" value="https://gilb.ai/index2.html#thanks">
-          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="row-2">
-            <div><label class="lbl" for="f-name">Full name</label><input id="f-name" type="text" name="name" required placeholder="Jane Smith"></div>
-            <div><label class="lbl" for="f-email">Work email</label><input id="f-email" type="email" name="email" required placeholder="jane@company.com"></div>
-          </div>
-          <div class="row-2">
-            <div><label class="lbl" for="f-company">Company</label><input id="f-company" type="text" name="company" required placeholder="Firm or company name"></div>
-            <div><label class="lbl" for="f-role">Role</label><input id="f-role" type="text" name="role" required placeholder="Partner, transformation lead, …"></div>
-          </div>
-          <div class="row-2">
-            <div>
-              <label class="lbl" for="f-team">Team type</label>
-              <select id="f-team" name="team_type" required>
-                <option value="">Select one</option>
-                <option>External AI transformation consultancy</option>
-                <option>Internal transformation / ops team</option>
-                <option>Portfolio operations / PE value creation</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label class="lbl" for="f-timeline">Priority timeline</label>
-              <select id="f-timeline" name="timeline" required>
-                <option value="">Select one</option>
-                <option>Immediate pilot in 30 days</option>
-                <option>Exploration this quarter</option>
-                <option>Researching for later</option>
-              </select>
-            </div>
-          </div>
-          <div><label class="lbl" for="f-problem">What transformation problem are you trying to solve?</label><textarea id="f-problem" name="problem" required placeholder="Example: we need a faster way to find automation opportunities across support, revops, and finance without six weeks of interviews."></textarea></div>
-          <div><label class="lbl" for="f-scope">Which workflows or teams would you observe first?</label><textarea id="f-scope" name="scope" placeholder="Example: sales ops, support managers, analysts, onboarding specialists."></textarea></div>
-          <div class="form-actions"><button class="btn" type="submit">Send request</button></div>
-        </form>
-      </div>
-    </section>
-
-    <section class="card" id="thanks">
-      <div class="card-head">Request a readout</div>
-      <div class="demo-body">
-        <p class="h1" style="font-size:28px">Got it.</p>
-        <p>Thank you. We come back within one business day.</p>
-        <div class="hero-cta"><a class="btn" href="/">Back to gilb.ai</a></div>
+        <form class="form lead-form" data-lead-form data-source="transformation" method="post">
+<p class="form-required">Fields marked * are required.</p>
+<div class="lead-row"><label>Your name *<input name="name" autocomplete="name" maxlength="120" required placeholder="Jane Smith"></label><label>Company size *<input name="companySize" maxlength="120" required placeholder="e.g. 300–1000 employees"></label></div>
+<label>What are you looking for? *<textarea name="lookingFor" rows="4" maxlength="2000" required placeholder="What outcomes are you expecting?"></textarea></label>
+<div class="lead-row"><label>Email *<input name="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@company.com"></label><label>WhatsApp number (optional)<input name="whatsapp" type="tel" autocomplete="tel" maxlength="50" placeholder="+1 415 555 0123"></label></div>
+<div class="lead-trap" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<input type="hidden" name="requestId"><input type="hidden" name="source" value="transformation">
+<div class="lead-actions"><button class="btn" type="submit">Request a call <span aria-hidden="true">↗</span></button><p class="lead-status" role="status" aria-live="polite"></p></div>
+<noscript><p>Please enable JavaScript to send your request.</p></noscript>
+</form>
       </div>
     </section>
 
@@ -283,5 +254,7 @@ select{appearance:none;cursor:pointer;background-image:linear-gradient(45deg,tra
   </footer>
 </div>
 
+<script src="/lead-config.js?v=20261020-allforms"></script>
+<script src="/lead-form.js?v=20261020-allforms" defer></script>
 </body>
 </html>

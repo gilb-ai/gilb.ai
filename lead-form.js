@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const allowedOrigin = origin => /^https:\/\/(?:script\.google\.com|(?:[a-z0-9-]+\.)?script\.googleusercontent\.com)$/.test(origin);
+  const allowedOrigin = origin => /^https:\/\/(?:script\.google\.com|(?:(?:[a-z0-9-]+\.)?script|n-[a-z0-9-]+-script)\.googleusercontent\.com)$/.test(origin);
   document.querySelectorAll('[data-lead-form]').forEach(form => {
     const status = form.querySelector('.lead-status');
     const submit = form.querySelector('[type=submit]');
