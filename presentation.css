@@ -47,4 +47,4 @@ body{font:17px/1.6 var(--sans);background:#fff;color:var(--ink)}html{scroll-beha
 .customer-case + .customer-case{margin-top:32px}
 
 /* Direct manipulation of the particle sculpture. */
-.particle-art canvas{cursor:grab;touch-action:pinch-zoom;user-select:none}.particle-art canvas.is-dragging{cursor:grabbing}.particle-art canvas:focus-visible{outline:2px solid #b54d2c;outline-offset:4px;border-radius:8px}.particle-caption .particle-hint{font-size:12px;color:#666;margin-bottom:12px}
+.particle-art canvas{cursor:grab;touch-action:pinch-zoom;user-select:none}.particle-art canvas.is-dragging{cursor:grabbing}.particle-art canvas:focus-visible{outline:2px solid #b54d2c;outline-offset:4px;border-radius:8px}
