@@ -13,6 +13,12 @@
   let elapsed = 0;
   let width = 0;
   let height = 0;
+  let yaw = 0;
+  let pitch = .24;
+  let drag = null;
+  let velocity = { yaw: 0, pitch: 0 };
+  let resumeAt = 0;
+  const clampPitch = value => Math.max(-1.35, Math.min(1.35, value));
   let seed = 7319;
   const random = () => {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -38,9 +44,9 @@
   function draw() {
     context.clearRect(0, 0, width, height);
     const t = elapsed * .00023;
-    const rotation = t * .48;
+    const rotation = yaw;
     const cos = Math.cos(rotation), sin = Math.sin(rotation);
-    const tilt = .24 + Math.sin(t * .32) * .16;
+    const tilt = pitch;
     const ct = Math.cos(tilt), st = Math.sin(tilt);
     const scale = Math.min(width, height) * .31;
     // Five soft volumes drift from a single sculpture into distinct lobes.
@@ -87,7 +93,16 @@
   function tick(now) {
     frame = 0;
     if (!playing || !visible || document.hidden) { previous = 0; return; }
-    if (previous) elapsed += Math.min(now - previous, 50);
+    const dt = previous ? Math.min(now - previous, 50) : 0;
+    elapsed += dt;
+    if (!drag) {
+      const decay = Math.exp(-dt / 240);
+      yaw += velocity.yaw * 240 * (1 - decay);
+      pitch = clampPitch(pitch + velocity.pitch * 240 * (1 - decay));
+      velocity.yaw *= decay;
+      velocity.pitch *= decay;
+      if (now >= resumeAt) yaw += dt * .00023 * .48;
+    }
     previous = now;
     draw();
     frame = requestAnimationFrame(tick);
@@ -108,7 +123,59 @@
     context.setTransform(dpr, 0, 0, dpr, 0, 0);
     draw();
   }
-  reduced.addEventListener('change', event => { playing = !event.matches; sync(); });
+  function endDrag(event) {
+    if (!drag || drag.id !== event.pointerId) return;
+    if (event.type !== 'pointerup' || reduced.matches || event.timeStamp - drag.time > 100) {
+      velocity = { yaw: 0, pitch: 0 };
+    }
+    drag = null;
+    resumeAt = performance.now() + 6000;
+    canvas.classList.remove('is-dragging');
+    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+  }
+  canvas.addEventListener('pointerdown', event => {
+    if (drag || !event.isPrimary || event.button !== 0) return;
+    velocity = { yaw: 0, pitch: 0 };
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, time: event.timeStamp };
+    canvas.setPointerCapture(event.pointerId);
+    canvas.classList.add('is-dragging');
+  });
+  canvas.addEventListener('pointermove', event => {
+    if (!drag || drag.id !== event.pointerId) return;
+    const sensitivity = 3.5 / Math.max(200, Math.min(width, height));
+    const dx = (event.clientX - drag.x) * sensitivity;
+    const dy = -(event.clientY - drag.y) * sensitivity;
+    const dt = Math.max(8, event.timeStamp - drag.time);
+    yaw += dx;
+    const nextPitch = clampPitch(pitch + dy);
+    velocity = { yaw: dx / dt, pitch: (nextPitch - pitch) / dt };
+    pitch = nextPitch;
+    drag.x = event.clientX;
+    drag.y = event.clientY;
+    drag.time = event.timeStamp;
+    if (!playing) draw();
+  });
+  for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+    canvas.addEventListener(type, endDrag);
+  }
+  canvas.addEventListener('keydown', event => {
+    switch (event.key) {
+      case 'ArrowLeft': yaw -= .14; break;
+      case 'ArrowRight': yaw += .14; break;
+      case 'ArrowUp': pitch = clampPitch(pitch + .14); break;
+      case 'ArrowDown': pitch = clampPitch(pitch - .14); break;
+      default: return;
+    }
+    event.preventDefault();
+    velocity = { yaw: 0, pitch: 0 };
+    resumeAt = performance.now() + 6000;
+    if (!playing) draw();
+  });
+  reduced.addEventListener('change', event => {
+    playing = !event.matches;
+    velocity = { yaw: 0, pitch: 0 };
+    sync();
+  });
   document.addEventListener('visibilitychange', sync);
   new ResizeObserver(resize).observe(art);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(art);

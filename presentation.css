@@ -45,3 +45,6 @@ body{font:17px/1.6 var(--sans);background:#fff;color:var(--ink)}html{scroll-beha
 @media(max-width:480px){.customer-case{padding:20px}.case-heading{align-items:flex-start;gap:12px}.case-monogram{flex-basis:44px;height:44px;font-size:18px}.case-heading h3{font-size:21px}.case-metrics{grid-template-columns:1fr;gap:20px}.case-flow{grid-template-columns:1fr}}
 
 .customer-case + .customer-case{margin-top:32px}
+
+/* Direct manipulation of the particle sculpture. */
+.particle-art canvas{cursor:grab;touch-action:pinch-zoom;user-select:none}.particle-art canvas.is-dragging{cursor:grabbing}.particle-art canvas:focus-visible{outline:2px solid #b54d2c;outline-offset:4px;border-radius:8px}.particle-caption .particle-hint{font-size:12px;color:#666;margin-bottom:12px}
