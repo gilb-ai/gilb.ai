@@ -2,11 +2,11 @@
 <header class="site-header"><div class="wrap header-inner">
 <a class="site-brand" href="/" aria-label="Gilb home"><span class="brand-symbol" aria-hidden="true">g<span>·</span></span>gilb<span class="brand-domain">.ai</span></a>
 <nav class="site-nav" aria-label="Main navigation">
-<a href="/">Company Brain</a>
-<a href="/platform/">Platform</a>
-<a href="/transformation/" >Transformation</a>
+<a href="/therblig/">Therblig</a>
+<a href="/brain/">Company Brain</a>
+<a href="/partners/">Partners</a>
 <a href="/cases/" aria-current="page">Cases</a>
-</nav><a class="header-cta" href="/#contact">Contact</a>
+</nav><a class="header-cta" href="/brain/#contact">Contact</a>
 </div></header>
 <main id="main"><section class="section wrap cases-section" id="cases" aria-labelledby="cases-title">
 <div class="section-top"><h1 id="cases-title">Cases</h1><p class="section-intro">Weekly business reviews, growth discovery, and vessel operations.</p></div>
@@ -18,7 +18,7 @@
 <ol class="case-flow" aria-label="CRM data flow from Kommo to Company Brain"><li><strong>Kommo CRM</strong><span>Source customer and business records</span></li><li><strong>PostgreSQL</strong><span>CRM data regularly fetched and stored</span></li><li><strong>MCP connector</strong><span>Company Brain access to regularly updated data</span></li><li><strong>Company Brain</strong><span>Analysis for the dashboard and scheduled reviews</span></li></ol>
 <div class="case-details"><div><h4>A dashboard for business review</h4><p>The dashboard brought the findings together: the week’s summary, important signals, and analysis of the business’s main constraint.</p></div><div><h4>Recurring work, on schedule</h4><p>Scheduled jobs ran tasks regularly. Every Monday, the system reviewed the previous week, highlighted important developments, and searched for the main business bottleneck.</p></div></div>
 <div class="case-outcome"><h4>A weekly focus for the team</h4><p>The weekly review brought important changes and business constraints together, using CRM records, calls, and agent memory.</p><p class="case-example">“What mattered this week, and what is the main business constraint?”</p></div>
-<a class="text-link" href="/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="/brain/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
 </article>
 <article class="customer-case" id="executive-reporting" aria-labelledby="executive-reporting-title">
 <div class="case-heading"><span class="case-monogram" aria-hidden="true">02</span><div><p class="eyebrow">C-LEVEL REPORTING &amp; GROWTH DISCOVERY</p><h3 id="executive-reporting-title">A continuous search for growth.</h3></div></div>
@@ -30,7 +30,7 @@
 <div class="case-details"><div><h4>MCP access to analytical data</h4><p>MCP lets agents connect to ClickHouse and query the data behind a business question. SQL results give analysis a concrete numerical basis.</p></div><div><h4>LibreChat for follow-up questions</h4><p>LibreChat provides a conversational interface to the data. Leaders can explore a finding and ask for a more detailed breakdown.</p></div><div><h4>Specialist agents and code execution</h4><p>Specialist agents can share analytical work. A sandboxed Python or JavaScript interpreter can transform query results and produce calculations or visualizations.</p></div><div><h4>Langfuse for quality and operations</h4><p>Langfuse can trace prompts, tool calls, and responses; evaluate outputs; and monitor model costs and latency.</p></div></div>
 <div class="case-details"><div><h4>Regular reports for leadership</h4><p>The reporting workflow brought business findings into a recurring briefing for C-level leaders. Questions for this kind of review include: Which segments are converting? Where are deals slowing down? What changed since the previous reporting period?</p></div><div><h4>Automatic growth hypotheses</h4><p>The agents searched the data for opportunities and generated hypotheses for the team to assess. A useful hypothesis connects an observed pattern to a proposed change, a target segment, and a metric to test. For example, a drop in conversion can prompt an experiment with follow-up timing.</p></div></div>
 <div class="case-outcome"><h4>From business review to the next experiment</h4><p>One workflow: review performance, find opportunities, and generate hypotheses to test.</p><p class="case-example">Example hypothesis: “Could a different follow-up sequence improve conversion in a customer segment? Compare it with the current approach before expanding.”</p></div>
-<a class="text-link" href="/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="/brain/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
 </article>
 <article class="customer-case" id="vessel-operations" aria-labelledby="vessel-operations-title">
 <div class="case-heading"><span class="case-monogram" aria-hidden="true">03</span><div><p class="eyebrow">VESSEL OPERATIONS &amp; LOADING PLANNING</p><h3 id="vessel-operations-title">From captains’ emails to a shared operational picture.</h3></div></div>
@@ -40,6 +40,6 @@
 <ol class="case-flow" aria-label="Data flow from captains’ emails to operational decisions"><li><strong>Email</strong><span>Incoming reports from captains</span></li><li><strong>Hermes</strong><span>Agent workflow for processing reports</span></li><li><strong>PostgreSQL</strong><span>Structured vessel records updated from email</span></li><li><strong>Map &amp; chat</strong><span>Vessel locations and operational questions</span></li></ol>
 <div class="case-details"><div><h4>A map grounded in reported positions</h4><p>The map displayed vessel locations from the processed reports. It gave the team a shared view of where vessels were last reported, with new email updates feeding the underlying records.</p></div><div><h4>LibreChat for operational questions</h4><p>LibreChat provided the interface for asking questions about the data. The team could investigate where a delay was occurring and discuss how to plan loading around the reported vessel situation.</p></div><div><h4>Hermes for agent workflows</h4><p>Hermes powered the agent workflows connecting incoming reports and operational analysis. The integration kept supplying new data as captains sent further updates.</p></div><div><h4>OpenViking for memory</h4><p>OpenViking provided persistent memory for the agents, carrying context forward between conversations. PostgreSQL held the structured vessel data used by the map and chat.</p></div></div>
 <div class="case-outcome"><h4>One view for tracking and planning</h4><p>The team could review vessel positions, investigate delays, and discuss loading plans using the same data.</p><p class="case-example">Example questions: “Where is the delay?” and “How should we plan loading based on the latest vessel reports?”</p></div>
-<a class="text-link" href="/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
+<a class="text-link" href="/brain/#contact">Discuss a similar deployment <span aria-hidden="true">↗</span></a>
 </article>
-</section></main><footer class="site-footer wrap"><div class="footer-top"><a class="site-brand" href="/">gilb<span class="brand-domain">.ai</span></a><p>Better context.<br>More useful AI.</p><div class="footer-links"><a href="/">Company Brain ↗</a><a href="/platform/">Platform ↗</a><a href="/transformation/">AI transformation ↗</a><a href="/cases/">Cases ↗</a><a href="/#contact">Talk to us ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gilb</span><span>Infrastructure. Memory. Transformation.</span></div></footer></body></html>
+</section></main><footer class="site-footer wrap"><div class="footer-top"><a class="site-brand" href="/">gilb<span class="brand-domain">.ai</span></a><p>Better context.<br>More useful AI.</p><div class="footer-links"><a href="/therblig/">Therblig ↗</a><a href="/brain/">Company Brain ↗</a><a href="/platform/">Platform ↗</a><a href="/partners/">Partners ↗</a><a href="/cases/">Cases ↗</a><a href="/transformation/">Transformation ↗</a><a href="/brain/#contact">Talk to us ↗</a></div></div><div class="footer-bottom"><span>© 2026 Gilb</span><span>Infrastructure. Memory. Transformation.</span></div></footer></body></html>
