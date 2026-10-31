@@ -39,10 +39,11 @@
     ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
   }
 
-  function stepHands(t) {
+  function stepHands(t, live) {
     for (const h of hands) {
       const p = handPos(h, t);
       h.tick++;
+      if (live && !moved && h.last) ambient(h, p);
       // Interrupted light: on for 5 frames, off for 3, like the flashing lamps in a chronocyclegraph.
       if (h.last && h.tick % 8 < 5) stroke(h.last, p, .8, 1.8);
       if (h.tick % 40 === 0) { ctx.fillStyle = 'rgba(255,242,212,.9)'; ctx.beginPath(); ctx.arc(p[0], p[1], 2.2, 0, 7); ctx.fill(); }
@@ -52,8 +53,20 @@
 
   // Visitor trace and readout
   const rMoves = document.getElementById('r-moves'), rHolds = document.getElementById('r-holds'), rPath = document.getElementById('r-path'), rHint = document.getElementById('r-hint');
+  const rTitle = document.getElementById('r-title');
   let me = null, moves = 0, holds = 0, path = 0, sinceCount = 0, holdTimer = 0, moved = false;
   const PX_PER_M = 3780; // CSS pixels per metre at 96 dpi
+
+  // Until the visitor moves, the readout counts the plate's own "hands", so it never sits at zero.
+  let aMoves = 0, aHolds = 0, aPath = 0, aSince = 0, aFrame = 0;
+  function ambient(h, p) {
+    const d = Math.hypot(p[0] - h.last[0], p[1] - h.last[1]);
+    aPath += d; aSince += d;
+    if (aSince > 60) { aMoves++; aSince = 0; }
+    if (h.tick % 40 === 0) aHolds++;
+    if (++aFrame % 6) return;
+    rMoves.textContent = aMoves; rHolds.textContent = aHolds; rPath.textContent = (aPath / PX_PER_M).toFixed(1) + ' m';
+  }
 
   function onMove(e) {
     const r = canvas.getBoundingClientRect();
@@ -67,7 +80,7 @@
         path += d; sinceCount += d;
         if (sinceCount > 60) { moves++; sinceCount = 0; }
         rMoves.textContent = moves; rPath.textContent = (path / PX_PER_M).toFixed(1) + ' m';
-        if (!moved) { moved = true; rHint.textContent = 'Every stop becomes a pause. Every line, a motion. That is what Therblig measures.'; }
+        if (!moved) { moved = true; if (rTitle) rTitle.textContent = 'Your motion study, live'; rHolds.textContent = holds; rHint.textContent = 'Every stop becomes a pause. Every line, a motion. That is what Therblig measures.'; }
       }
     }
     me = p;
@@ -89,7 +102,7 @@
     ctx.globalCompositeOperation = 'destination-out';
     ctx.fillStyle = 'rgba(0,0,0,.022)'; ctx.fillRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
-    stepHands(t);
+    stepHands(t, true);
     ctx.globalCompositeOperation = 'source-over';
     if (running) raf = requestAnimationFrame(frame);
   }
@@ -99,7 +112,7 @@
   function staticExposure() {
     ctx.clearRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
-    for (let i = 0; i < 900; i++) stepHands(i / 60);
+    for (let i = 0; i < 900; i++) stepHands(i / 60, true);
     ctx.globalCompositeOperation = 'source-over';
   }
 
