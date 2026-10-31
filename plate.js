@@ -1,11 +1,10 @@
 /* Chronocyclegraph plate: ambient light traces plus a live trace of the visitor's own cursor.
-   Nothing leaves the browser. Also: solid header after the hero, pinned horizontal process (GSAP). */
+   Nothing leaves the browser. Also: pinned horizontal process (GSAP). */
 (() => {
   'use strict';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const section = document.querySelector('.plate');
   const canvas = document.getElementById('plate');
-  const header = document.getElementById('top');
   if (!section || !canvas) return;
   const ctx = canvas.getContext('2d');
   let W = 0, H = 0, dpr = 1;
@@ -116,10 +115,7 @@
 
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) start(); else stop();
-    header && header.classList.toggle('solid', e.intersectionRatio < 0.12);
   }, { threshold: [0, .12, .5] }).observe(section);
-  const onScroll = () => header && header.classList.toggle('scrolled', scrollY > 30);
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
   document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
 
   // Pinned horizontal process on wide screens

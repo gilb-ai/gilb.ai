@@ -13,6 +13,9 @@ Public Company Brain website, hosted on GitHub Pages at [gilb.ai](https://gilb.a
 
 Static HTML, CSS, and JavaScript. No build step.
 
+Shared styles: `gilb.css`. Home hero animation: `plate.js`; header behaviour: `site.js`.
+Vendored: GSAP 3.15 + ScrollTrigger in `vendor/`. Font: Archivo variable (OFL), self-hosted in `fonts/`.
+
 The authoritative source lives in the internal `workspace` repository under
 `gilb.ai/`. Copy the published files here, commit, and push to `main` to deploy.
 The `CNAME` file preserves the custom domain.
