@@ -35,3 +35,37 @@
 @media(max-width:650px){.ownership-list article{grid-template-columns:36px minmax(0,1fr);gap:12px;padding:24px 0}.owned-layer{padding:12px}.your-data .architecture{padding:16px}.your-data .pills{flex-wrap:wrap}.your-data .page-hero h1{font-size:clamp(36px,9.8vw,58px)}}
 
 @media(max-width:650px){.simple-step{padding:24px 16px}.simple-step p{font-size:18px}.simple-step .simple-detail{font-size:16px}.simple-label{font-size:12px}}
+
+/* Optional technical detail: plain-language purpose first, component name second. */
+.technical-details{max-width:1000px;margin:24px auto 0;border:1px solid var(--rule);border-radius:18px;background:var(--sheet);overflow:hidden}
+.technical-details summary{display:flex;align-items:center;justify-content:space-between;gap:20px;cursor:pointer;padding:24px 28px;list-style:none}
+.technical-details summary::-webkit-details-marker{display:none}
+.technical-details summary strong{display:block;font-size:23px;line-height:1.2;letter-spacing:-.02em}
+.technical-details summary span span{display:block;color:var(--dim);margin-top:8px;font-size:16px;line-height:1.4}
+.details-toggle{font-size:32px;line-height:1;flex-shrink:0;transition:transform .15s}
+.technical-details[open] .details-toggle{transform:rotate(45deg)}
+.technical-details summary:focus-visible{outline:3px solid var(--ink);outline-offset:-5px}
+.technical-details .technical-architecture{border-radius:0}
+.technical-intro{color:#ded8cd;font-size:18px;line-height:1.5;margin-bottom:28px;max-width:65ch}
+.technical-stack{display:grid;gap:12px}
+.technical-stack .architecture-layer{padding:20px}
+.technical-stack .architecture-layer h3{font-size:22px;line-height:1.2;margin-bottom:16px}
+.technical-stack .architecture-node{padding:14px;gap:8px}
+.technical-stack .architecture-node strong{font-size:17px;overflow-wrap:anywhere}
+.technical-stack .architecture-node span{font-size:16px;line-height:1.5;color:#ddd6c8}
+.technical-stack .replaceable-layer{border:2px dashed var(--light)}
+.technical-stack .layer-label{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--light);margin-bottom:14px}
+.technical-arrow{display:flex;gap:12px;justify-content:center;align-items:center;text-align:center;color:#ded8cd;font-size:15px;padding:4px 0}
+.technical-arrow>span:first-child{font-size:28px;line-height:1;color:var(--light)}
+.technical-owned{border:2px solid #aacdb1;border-radius:14px;background:#22352a;padding:20px}
+.technical-owned .layer-label{color:#d0ecd5}
+.technical-owned .architecture-layer{background:#22352a;border-color:#567760}
+.technical-stack .technical-note{font-size:16px;color:#ded8cd;line-height:1.5;margin-top:14px}
+.technical-stack .source-tags li{font-size:15px}
+.technical-support{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px;padding-top:28px;border-top:1px solid #6e675a}
+.technical-support h3{font-size:22px;margin-bottom:12px;color:#fff}
+.technical-support p{font-size:16px;line-height:1.6;color:#ded8cd}
+.technical-support strong{color:var(--light)}
+.your-data .technical-architecture figcaption{font-size:16px;color:#ded8cd;line-height:1.6;margin-top:28px}
+@media(max-width:650px){.technical-details summary{padding:22px 16px}.technical-details summary strong{font-size:21px}.technical-support{grid-template-columns:1fr}.technical-owned{padding:12px}.technical-stack .architecture-layer{padding:16px}.technical-stack .architecture-layer h3{font-size:20px}.technical-stack .architecture-node{padding:12px}.technical-arrow{font-size:14px}}
+@media(prefers-reduced-motion:reduce){.details-toggle{transition:none}}

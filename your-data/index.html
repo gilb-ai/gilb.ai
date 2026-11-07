@@ -1,7 +1,7 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Ваши данные. Ваш выбор ИИ | Gilb</title><meta name="description" content="Документы и знания компании остаются у вас. ИИ можно сменить или установить у себя. Поможем выбрать подходящий вариант и посчитать стоимость."><link rel="canonical" href="https://gilb.ai/your-data/"><meta property="og:title" content="Ваши данные. Ваш выбор ИИ | Gilb"><meta property="og:description" content="Документы и знания компании остаются у вас. ИИ можно сменить или установить у себя. Поможем выбрать подходящий вариант и посчитать стоимость."><meta property="og:url" content="https://gilb.ai/your-data/"><meta property="og:type" content="website">
 <meta property="og:image" content="https://gilb.ai/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://gilb.ai/og.png">
-<meta name="theme-color" content="#15130f"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2315130f'/%3E%3Cpath d='M8 20c3-9 8 7 16-8' fill='none' stroke='%23ffd27a' stroke-width='2.6' stroke-linecap='round' stroke-dasharray='4 3'/%3E%3C/svg%3E"><link rel="preload" href="/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin><link rel="stylesheet" href="/gilb.css?v=20261031-v4"><link rel="stylesheet" href="/your-data/page.css?v=20261107-simple"></head><body class="your-data"><a class="skip" href="#main">К содержанию</a>
+<meta name="theme-color" content="#15130f"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2315130f'/%3E%3Cpath d='M8 20c3-9 8 7 16-8' fill='none' stroke='%23ffd27a' stroke-width='2.6' stroke-linecap='round' stroke-dasharray='4 3'/%3E%3C/svg%3E"><link rel="preload" href="/fonts/archivo-var.woff" as="font" type="font/woff" crossorigin><link rel="stylesheet" href="/gilb.css?v=20261031-v4"><link rel="stylesheet" href="/your-data/page.css?v=20261107-technical"></head><body class="your-data"><a class="skip" href="#main">К содержанию</a>
 <header class="top" id="top"><div class="wrap top-inner">
   <a class="brand" href="/" aria-label="Gilb — главная"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="16" fill="currentColor" opacity=".14"/><path d="M8 20c3-9 8 7 16-8" fill="none" stroke="#ffd27a" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="4 3"/></svg><b>gilb<span>.ai</span></b></a>
   <nav class="nav" aria-label="Основная навигация"><a href="/therblig/">Therblig</a><a href="/brain/">Company Brain</a><a href="/partners/">Партнёры</a><a href="/cases/">Кейсы</a></nav>
@@ -32,7 +32,37 @@
 <section class="simple-step sources-step"><h3>Программы, которыми вы уже пользуетесь</h3><p>Почта · документы · бухгалтерия · база клиентов</p></section>
 </div>
 <figcaption>Готовому ИИ-сервису нужно отправлять часть данных через интернет. Если ваши правила этого не допускают, ИИ можно установить у вас.</figcaption>
-</figure></div></section>
+</figure>
+<details class="technical-details" id="technical-architecture">
+<summary><span><strong>Что внутри: техническая схема</strong><span>Названия технологий и объяснение, зачем они нужны</span></span><span class="details-toggle" aria-hidden="true">+</span></summary>
+<figure class="architecture technical-architecture" aria-labelledby="technical-title">
+<div class="architecture-heading"><div><p class="eyebrow">COMPANY BRAIN · УСТРОЙСТВО ПЛАТФОРМЫ</p><h2 id="technical-title">У каждой части<br>своя работа.</h2></div></div>
+<p class="technical-intro">Читайте сверху вниз: от помощника, которому вы задаёте вопрос, до программ, в которых хранятся ваши документы.</p>
+<div class="technical-stack">
+<section class="architecture-layer replaceable-layer"><p class="layer-label">МОЖНО ЗАМЕНИТЬ</p><h3>ИИ обдумывает вопрос и готовит ответ</h3><div class="architecture-nodes"><div class="architecture-node"><strong>Модель через API</strong><span>Готовый ИИ-сервис. Получает запрос и нужные фрагменты документов через интернет.</span></div><div class="architecture-node"><strong>Локальная модель</strong><span>ИИ установлен на ваших или арендованных серверах. Запросы обрабатываются там же.</span></div></div></section>
+<div class="technical-arrow"><span aria-hidden="true">↕</span><span>Вопрос и ответ</span></div>
+<div class="architecture-pair">
+<section class="architecture-layer"><h3>Здесь вы общаетесь с ИИ</h3><div class="architecture-node"><strong>LibreChat · ваши интерфейсы</strong><span>Окно переписки, отчёты и рабочие экраны для сотрудников.</span></div></section>
+<section class="architecture-layer"><h3>Здесь выполняются поручения</h3><div class="architecture-node"><strong>Hermes · ваши агенты</strong><span>Программы-помощники: ищут сведения, запускают проверки и собирают отчёты.</span></div></section>
+</div>
+<div class="technical-arrow"><span aria-hidden="true">↕</span><span>Запросы к рабочим системам</span></div>
+<section class="architecture-layer"><h3>Так помощник подключается к данным</h3><div class="architecture-nodes"><div class="architecture-node"><strong>MCP</strong><span>Общий способ подключать ИИ к инструментам. Например, к поиску по документам.</span></div><div class="architecture-node"><strong>API</strong><span>Способ обмениваться запросами между программами. Например, получить заказ из базы клиентов.</span></div></div><p class="technical-note">Права доступа настраиваются отдельно: подключение само по себе не даёт права читать всё.</p></section>
+<div class="technical-arrow"><span aria-hidden="true">↕</span><span>Нужные записи и инструкции</span></div>
+<div class="technical-owned"><p class="layer-label">ДАННЫЕ И ЗНАНИЯ ОСТАЮТСЯ У ВАС</p><div class="architecture-pair">
+<section class="architecture-layer"><h3>Записи о работе компании</h3><div class="architecture-node"><strong>PostgreSQL</strong><span>Хранит записи: заказы, события и историю работы.</span></div><div class="architecture-node"><strong>ClickHouse</strong><span>Помогает быстро считать показатели по большому числу записей.</span></div></section>
+<section class="architecture-layer"><h3>То, что нужно знать помощнику</h3><div class="architecture-node"><strong>OpenViking</strong><span>Хранит контекст и память: сведения, к которым помощник возвращается в работе.</span></div><div class="architecture-node"><strong>Skills · рабочие инструкции</strong><span>Объясняют, как выполнять ваши задачи. Например, что включать в еженедельный отчёт.</span></div></section>
+</div></div>
+<div class="technical-arrow"><span aria-hidden="true">↑</span><span>Регулярно получаем обновления</span></div>
+<section class="architecture-layer"><h3>Источники данных</h3><p>Подключаем программы, которыми компания уже пользуется.</p><ul class="source-tags" aria-label="Примеры источников"><li>CRM — база клиентов</li><li>Почта</li><li>Документы</li><li>Звонки</li><li>Бухгалтерия</li></ul></section>
+</div>
+<div class="technical-support">
+<section><h3>Проверяем работу ИИ</h3><p><strong>Langfuse</strong> показывает, какие шаги прошёл помощник, сколько времени и денег занял запрос. Помогает сравнивать качество ответов, в том числе после смены модели.</p></section>
+<section><h3>Следим за всей системой</h3><p><strong>Обслуживание и поддержка:</strong> работа серверов, резервные копии, права доступа и помощь при сбоях. Объём работ и сроки реакции согласуем до запуска.</p></section>
+</div>
+<figcaption>Это схема связей, а не план размещения серверов. Конкретные компоненты выбираем под ваши задачи. При смене ИИ данные сохраняются, но инструкции и подключения нужно проверить с новой моделью.</figcaption>
+</figure>
+</details>
+</div></section>
 <section class="section" id="deployment"><div class="wrap"><div class="sec-head"><h2>Где будет<br>работать ИИ?</h2><p>Можно подключить готовый сервис, установить ИИ у себя или заказать отдельную систему с дополнительной защитой. Ниже — что это значит для вас.</p></div>
 <div class="paths">
 <article><span class="tag">01 / Готовый сервис</span><h3>Пользоваться готовым ИИ</h3><p>Документы хранятся там, где мы с вами договорились. Для ответа ИИ получает нужные фрагменты через интернет.</p><p>Подойдёт, если часть сведений можно передавать другой компании. До подключения проверим, что сервис делает с вашими запросами и как долго их хранит.</p><a class="link" href="#contact">Обсудить подключение</a></article>
