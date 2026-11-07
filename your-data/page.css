@@ -11,15 +11,21 @@
 .ownership-list h3{font-size:clamp(24px,3vw,36px);margin-bottom:12px}
 .ownership-list p{font-size:18px;color:var(--dim);max-width:66ch}
 .your-data .architecture-heading h2{font-size:clamp(28px,3.4vw,44px)}
-.your-data .architecture-rail h3{font-size:20px;overflow-wrap:anywhere}
-.your-data .architecture-node strong{font-size:14px;overflow-wrap:anywhere}
-.your-data .architecture-layer h3{font-size:17px}
-.your-data .architecture-grid{grid-template-columns:160px minmax(0,1fr) 170px}
-.model-layer{border-style:dashed;border-color:var(--light)}
-.model-layer .layer-note{font-size:13px;margin-top:12px}
-.owned-layer{padding:16px;border:1px solid #a4c4ab;background:#1c2b22;border-radius:14px}
-.owned-label{font-size:11px;letter-spacing:.06em;font-weight:700;color:#c6e6cd;margin-bottom:12px}
-.owned-layer .architecture-layer{background:#22352a;border-color:#567760}
+.simple-architecture{max-width:1000px;margin-inline:auto}
+.simple-flow{max-width:700px;margin-inline:auto}
+.simple-step{padding:28px 32px;border:1px solid #6e675a;border-radius:14px;text-align:center}
+.simple-step h3{font-size:clamp(25px,3vw,36px);color:#fff;margin-bottom:12px}
+.simple-step p{font-size:20px;line-height:1.5;max-width:48ch;margin-inline:auto;color:#eee9df}
+.simple-step .simple-detail{font-size:17px;margin-top:16px;color:#d4cec1}
+.simple-label{display:block;font-size:13px;letter-spacing:.07em;font-weight:700;margin-bottom:16px;color:var(--light)}
+.assistant-step{border:2px dashed var(--light);background:#252018}
+.knowledge-step{border:2px solid #aacdb1;background:#22352a}
+.knowledge-step .simple-label{color:#d0ecd5}
+.sources-step{background:#252018}
+.simple-connection{display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 0;text-align:center}
+.simple-connection span{font-size:32px;line-height:1;color:var(--light)}
+.simple-connection p{font-size:16px;color:#d4cec1}
+.your-data .simple-architecture figcaption{font-size:16px;line-height:1.6;color:#d4cec1;max-width:70ch;margin:28px auto 0}
 .your-data .paths h3{font-size:28px}
 .your-data .paths p{font-size:16px}
 .handover{max-width:820px;font-size:19px;color:var(--dim)}
@@ -27,3 +33,5 @@
 .your-data .contact h2{font-size:clamp(34px,4.4vw,60px);overflow-wrap:anywhere}
 @media(max-width:980px){.your-data .architecture-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.ownership-list article{grid-template-columns:36px minmax(0,1fr);gap:12px;padding:24px 0}.owned-layer{padding:12px}.your-data .architecture{padding:16px}.your-data .pills{flex-wrap:wrap}.your-data .page-hero h1{font-size:clamp(36px,9.8vw,58px)}}
+
+@media(max-width:650px){.simple-step{padding:24px 16px}.simple-step p{font-size:18px}.simple-step .simple-detail{font-size:16px}.simple-label{font-size:12px}}
