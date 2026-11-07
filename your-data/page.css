@@ -76,3 +76,19 @@
 .your-data .page-hero .lead{max-width:66ch;font-size:20px}
 .guide-contents{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:28px}
 .guide-contents a{font-size:16px;color:var(--light);text-underline-offset:5px}
+
+/* Short explanation with optional technical detail. */
+.your-data .page-hero{padding-top:130px;padding-bottom:64px}
+.your-data .page-hero h1{max-width:18ch}
+.your-data .page-hero .lead{font-size:clamp(20px,2.2vw,26px);max-width:52ch;line-height:1.5}
+.guide-explanation{max-width:65ch;margin-top:24px;font-size:18px;line-height:1.6;color:#cfc8b8}
+.your-data #architecture{padding-top:56px;padding-bottom:64px}
+.ownership-sketch{display:grid;grid-template-columns:1fr 48px 1fr;align-items:stretch;gap:16px;max-width:1000px;margin:0 auto 24px}
+.ownership-sketch>div{padding:28px;border-radius:14px}
+.sketch-data{background:#22352a;color:#fff;border:2px solid #aacdb1}
+.sketch-ai{background:var(--plate);color:#fff;border:2px dashed #b98539}
+.ownership-sketch span:not(.sketch-arrow){font-size:15px;display:block;margin-bottom:12px}
+.your-data .ownership-sketch h2{font-size:clamp(26px,3vw,36px);margin-bottom:12px;max-width:none}
+.ownership-sketch p{font-size:16px;line-height:1.5}
+.sketch-arrow{align-self:center;text-align:center;font-size:32px}
+@media(max-width:650px){.ownership-sketch{grid-template-columns:1fr;gap:12px}.sketch-arrow{transform:rotate(90deg)}.your-data .page-hero{padding-top:140px;padding-bottom:40px}.ownership-sketch>div{padding:24px}.guide-explanation{font-size:17px}}
