@@ -10,8 +10,8 @@
 <section class="page-hero" data-hero><div class="wrap">
 <p class="kicker">Vendor lock-free · Без привязки к поставщику</p>
 <h1>Ваши данные<br>остаются у вас.</h1>
-<p class="lead">ИИ можно сменить. Подрядчика тоже. Ваши документы, история и рабочие инструкции при этом остаются у компании. В этом и смысл <span lang="en">vendor lock-free</span>.</p>
-<p class="guide-explanation">Данные хранятся отдельно от ИИ. Можно подключить другую модель и продолжить работу с теми же материалами. Если нужна повышенная безопасность, ИИ можно запустить локально, без передачи запросов внешнему сервису.</p>
+<p class="lead">ИИ и подрядчика можно сменить. Документы, история и рабочие инструкции остаются у компании.</p>
+<p class="guide-explanation">Данные хранятся отдельно от ИИ. Если нужна повышенная безопасность, модель можно запустить локально, без передачи запросов внешнему сервису.</p>
 </div></section>
 <section class="section alt" id="architecture"><div class="wrap">
 <figure class="ownership-sketch" aria-label="Данные компании хранятся отдельно от заменяемого ИИ">
@@ -20,32 +20,31 @@
 <div class="sketch-ai"><span>Можно заменить</span><h2>ИИ</h2><p>Внешний сервис или локальная модель</p></div>
 </figure>
 <details class="technical-details" id="technical-architecture">
-<summary><span><strong>Что внутри: техническая схема</strong><span>Компоненты платформы и их задачи</span></span><span class="details-toggle" aria-hidden="true">+</span></summary>
+<summary><span><strong>Техническая схема</strong></span><span class="details-toggle" aria-hidden="true">+</span></summary>
 <figure class="architecture technical-architecture" aria-labelledby="technical-title">
-<div class="architecture-heading"><div><p class="eyebrow">COMPANY BRAIN · УСТРОЙСТВО ПЛАТФОРМЫ</p><h2 id="technical-title">Из чего состоит<br>система</h2></div></div>
-<p class="technical-intro">Модель готовит ответ, агенты выполняют задачи, а базы хранят данные. Эти части связаны между собой, но каждую можно настраивать и менять отдельно, проверяя совместимость.</p>
+<div class="architecture-heading"><div><p class="eyebrow">COMPANY BRAIN</p><h2 id="technical-title">Из чего состоит<br>система</h2></div></div>
 <div class="technical-stack">
 <section class="architecture-layer replaceable-layer"><p class="layer-label">МОДЕЛЬ МОЖНО СМЕНИТЬ</p><h3>Модель готовит ответ</h3><div class="architecture-nodes"><div class="architecture-node"><strong>Модель через API</strong><span>Внешний сервис, которому отправляют вопрос и нужные фрагменты документов.</span></div><div class="architecture-node"><strong>Локальная модель</strong><span>Работает на серверах компании — собственных или арендованных.</span></div></div></section>
 <div class="technical-arrow"><span aria-hidden="true">↕</span><span>Вопрос и ответ</span></div>
 <div class="architecture-pair">
-<section class="architecture-layer"><h3>Общение с ИИ</h3><div class="architecture-node"><strong>LibreChat · другие интерфейсы</strong><span>Чат, в котором сотрудники задают вопросы и получают ответы. Вместо него можно подключить другой интерфейс.</span></div></section>
-<section class="architecture-layer"><h3>Выполнение задач</h3><div class="architecture-node"><strong>Hermes · другие агенты</strong><span>Помощники, которые выполняют поручения: находят сведения, запускают проверки, собирают отчёты.</span></div></section>
+<section class="architecture-layer"><h3>Общение с ИИ</h3><div class="architecture-node"><strong>LibreChat · другие интерфейсы</strong><span>Чат для работы с ИИ.</span></div></section>
+<section class="architecture-layer"><h3>Выполнение задач</h3><div class="architecture-node"><strong>Hermes · другие агенты</strong><span>Ищут сведения, запускают проверки, собирают отчёты.</span></div></section>
 </div>
 <div class="technical-arrow"><span aria-hidden="true">↕</span><span>Запросы к рабочим системам</span></div>
-<section class="architecture-layer"><h3>Подключение к данным</h3><div class="architecture-nodes"><div class="architecture-node"><strong>MCP</strong><span>Подключает к ИИ инструменты, например поиск по документам, по общим правилам.</span></div><div class="architecture-node"><strong>API</strong><span>Позволяет одной программе обратиться к другой — например, запросить данные заказа из CRM.</span></div></div><p class="technical-note">Для каждого подключения задают права: какие данные помощник может читать и что ему разрешено менять.</p></section>
+<section class="architecture-layer"><h3>Подключение к данным</h3><div class="architecture-nodes"><div class="architecture-node"><strong>MCP</strong><span>Стандарт подключения инструментов к ИИ — например, поиска по документам.</span></div><div class="architecture-node"><strong>API</strong><span>Обмен запросами между программами — например, получение заказа из CRM.</span></div></div><p class="technical-note">Права доступа определяют, что помощник может читать и менять.</p></section>
 <div class="technical-arrow"><span aria-hidden="true">↕</span><span>Нужные записи и инструкции</span></div>
 <div class="technical-owned"><p class="layer-label">ДАННЫЕ И ЗНАНИЯ · ОТДЕЛЬНО ОТ МОДЕЛИ</p><div class="architecture-pair">
-<section class="architecture-layer"><h3>Записи о работе компании</h3><div class="architecture-node"><strong>PostgreSQL</strong><span>Хранит заказы, события и историю работы компании.</span></div><div class="architecture-node"><strong>ClickHouse</strong><span>Считает показатели по большим объёмам данных — например, продажи за несколько лет.</span></div></section>
-<section class="architecture-layer"><h3>Память и инструкции</h3><div class="architecture-node"><strong>OpenViking</strong><span>Сохраняет сведения, которые понадобятся помощнику в следующих задачах.</span></div><div class="architecture-node"><strong>Skills · рабочие инструкции</strong><span>Описывают порядок работы: например, какие данные собрать для еженедельного отчёта и как его оформить.</span></div></section>
+<section class="architecture-layer"><h3>Записи о работе компании</h3><div class="architecture-node"><strong>PostgreSQL</strong><span>Хранит заказы, события и историю работы компании.</span></div><div class="architecture-node"><strong>ClickHouse</strong><span>Считает показатели по большим объёмам данных.</span></div></section>
+<section class="architecture-layer"><h3>Память и инструкции</h3><div class="architecture-node"><strong>OpenViking</strong><span>Сохраняет память помощника для следующих задач.</span></div><div class="architecture-node"><strong>Skills · рабочие инструкции</strong><span>Описывают порядок работы — например, как собрать еженедельный отчёт.</span></div></section>
 </div></div>
 <div class="technical-arrow"><span aria-hidden="true">↑</span><span>Регулярное обновление данных</span></div>
-<section class="architecture-layer"><h3>Источники данных</h3><p>Данные поступают из привычных рабочих программ.</p><ul class="source-tags" aria-label="Примеры источников"><li>CRM — база клиентов</li><li>Почта</li><li>Документы</li><li>Звонки</li><li>Бухгалтерия</li></ul></section>
+<section class="architecture-layer"><h3>Источники данных</h3><ul class="source-tags" aria-label="Примеры источников"><li>CRM — база клиентов</li><li>Почта</li><li>Документы</li><li>Звонки</li><li>Бухгалтерия</li></ul></section>
 </div>
 <div class="technical-support">
-<section><h3>Проверка работы ИИ</h3><p><strong>Langfuse</strong> показывает, что делал помощник, сколько времени занял запрос и во сколько обошёлся ответ. С его помощью можно сравнить работу разных моделей.</p></section>
-<section><h3>Обслуживание системы</h3><p>Кто следит за серверами, делает резервные копии и восстанавливает работу при сбое? За это должна отвечать конкретная команда. Ещё до запуска нужно договориться о сроках реакции и порядке выдачи доступа.</p></section>
+<section><h3>Проверка работы ИИ</h3><p><strong>Langfuse</strong> показывает действия помощника, время и стоимость запросов. Позволяет сравнивать модели.</p></section>
+<section><h3>Обслуживание системы</h3><p>Поддержка серверов, резервные копии и восстановление после сбоев. До запуска определяют ответственных, сроки реакции и правила доступа.</p></section>
 </div>
-<figcaption>Состав системы зависит от задач компании. При замене модели данные остаются на месте, а инструкции и подключения нужно проверить заново.</figcaption>
+<figcaption>При смене модели инструкции и подключения нужно проверить заново.</figcaption>
 </figure>
 </details>
 </div></section>
