@@ -6,6 +6,7 @@ Public Company Brain website, hosted on GitHub Pages at [gilb.ai](https://gilb.a
 - `/therblig/`, `/therblig/how-it-works/`: Therblig — AI interviews plus screen context.
 - `/brain/`: Company Brain landing page (no public prices; terms on request).
 - `/platform/`: Company Brain — how it works.
+- `/your-data/`: Russian page about data ownership, replaceable AI models, and deployment options.
 - `/partners/`: partner program (white-label, referral, internal teams).
 - `/cases/`, `/demurrage/`: cases and the demurrage pilot page.
 - `/transformation/`: previous Gilbreth AI transformation page, kept for future use.

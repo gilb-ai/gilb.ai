@@ -2,6 +2,24 @@
   'use strict';
   const allowedOrigin = origin => /^https:\/\/(?:script\.google\.com|(?:(?:[a-z0-9-]+\.)?script|n-[a-z0-9-]+-script)\.googleusercontent\.com)$/.test(origin);
   document.querySelectorAll('[data-lead-form]').forEach(form => {
+    const ru = form.dataset.locale === 'ru';
+    const messages = ru ? {
+      success: 'Спасибо! Заявка получена. Мы ответим вам по электронной почте.',
+      invalid: 'Проверьте имя, размер компании, электронную почту и описание задачи.',
+      error: 'Не удалось сохранить заявку. Данные остались в форме — попробуйте ещё раз.',
+      unavailable: 'Форма временно недоступна. Попробуйте позже.',
+      receipt: 'Подтверждение доставки заявки',
+      pending: 'Отправляем заявку…',
+      timeout: 'Подтверждение пока не пришло. Данные остались в форме. Попробуйте ещё раз — заявка не сохранится дважды.'
+    } : {
+      success: 'Thank you. Your request has been received. We’ll be in touch by email.',
+      invalid: 'Please check your name, company size, email and request, then try again.',
+      error: 'We couldn’t save your request. Your details are still here; please try again.',
+      unavailable: 'The request form is temporarily unavailable. Please try again later.',
+      receipt: 'Request delivery confirmation',
+      pending: 'Sending your request…',
+      timeout: 'We haven’t received confirmation yet. Your details are still here. Please try again; the same request won’t be saved twice.'
+    };
     const status = form.querySelector('.lead-status');
     const submit = form.querySelector('[type=submit]');
     let pending = false;
@@ -19,11 +37,11 @@
         completed = true;
         form.reset();
         submit.hidden = true;
-        say('Thank you. Your request has been received. We’ll be in touch by email.', 'success');
+        say(messages.success, 'success');
         status.tabIndex = -1;
         status.focus();
       } else {
-        say(data.code === 'invalid' ? 'Please check your name, company size, email and request, then try again.' : 'We couldn’t save your request. Your details are still here; please try again.', 'error');
+        say(data.code === 'invalid' ? messages.invalid : messages.error, 'error');
       }
     });
     form.addEventListener('submit', event => {
@@ -31,7 +49,7 @@
       if (pending || completed || !form.reportValidity()) return;
       const endpoint = window.GILB_LEAD_ENDPOINT || '';
       if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint)) {
-        say('The request form is temporarily unavailable. Please try again later.', 'error');
+        say(messages.unavailable, 'error');
         return;
       }
       const payload = ['name','companySize','lookingFor','email','whatsapp'].map(key => form.elements[key].value.trim());
@@ -42,7 +60,7 @@
       receipt = document.createElement('iframe');
       receipt.name = 'lead-receipt-' + form.elements.requestId.value;
       receipt.className = 'lead-receipt';
-      receipt.title = 'Request delivery confirmation';
+      receipt.title = messages.receipt;
       receipt.setAttribute('aria-hidden', 'true');
       form.append(receipt);
       form.action = endpoint;
@@ -50,10 +68,10 @@
       pending = true;
       submit.disabled = true;
       form.setAttribute('aria-busy','true');
-      say('Sending your request…','pending');
+      say(messages.pending,'pending');
       timer = setTimeout(() => {
         finish();
-        say('We haven’t received confirmation yet. Your details are still here. Please try again; the same request won’t be saved twice.', 'error');
+        say(messages.timeout, 'error');
       }, 45000);
       HTMLFormElement.prototype.submit.call(form);
     });
